@@ -1,7 +1,9 @@
 package gamelogic;
 
+import libraries.Logger;
+
 /**
- * Description
+ * The main file of the game
  *
  * @author Noah Morton
  *
@@ -13,5 +15,7 @@ public class Mainfile {
 
     public static void main(String[] args) {
         System.out.println("Init");
+        new Logger();
+        Logger.logCodeMessage("-------------Start Game ---------");
     }
 }
