@@ -1,5 +1,6 @@
 package gamewindow;
 
+import gamelogic.Tuning;
 import java.awt.event.*;
 import javax.swing.JPanel;
 
@@ -15,7 +16,7 @@ import javax.swing.JPanel;
 public class SneakPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 
     public SneakPanel() {
-        setSize(500, 500); //todo placeholder size
+        setSize(Tuning.SCREEN_WIDTH, Tuning.SCREEN_HEIGHT);
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -54,22 +55,21 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     @Override
     public void mouseMoved(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
 }
