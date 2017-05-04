@@ -18,7 +18,7 @@ import libraries.Logger;
 public class SneakFrame extends JFrame {
 
     public SneakFrame() {
-        super("Sneak - The top down stealh game");
+        super("Sneak - The top down stealth game");
 
         // Sets the close button to exit the program
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

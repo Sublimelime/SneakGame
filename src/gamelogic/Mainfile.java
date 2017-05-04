@@ -1,5 +1,6 @@
 package gamelogic;
 
+import gamewindow.SneakFrame;
 import libraries.Logger;
 
 /**
@@ -17,5 +18,6 @@ public class Mainfile {
         System.out.println("Init");
         new Logger();
         Logger.logCodeMessage("-------------Start Game ---------");
+        new SneakFrame();
     }
 }

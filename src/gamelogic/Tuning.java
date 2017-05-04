@@ -11,5 +11,14 @@ package gamelogic;
  */
 public class Tuning {
 
-    public final static int SCREEN_WIDTH = 500, SCREEN_HEIGHT = 500;  //todo placeholder size
+    //todo placeholder size
+    //Size of the screen
+    public final static int SCREEN_WIDTH = 640;
+    public final static int SCREEN_HEIGHT = 640;
+
+    //the size of the square tiles in pixels
+    public final static int TILE_SIZE = 16;
+
+    //set to true if debugging
+    public final static boolean DEBUG = true;
 }
