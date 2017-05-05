@@ -41,7 +41,7 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
      *
      * @param g Graphics to paint the lines onto.
      */
-    private void drawGuidelines(Graphics g, boolean drawNums) {
+    private void drawGuidelines(Graphics g, final boolean drawNums) {
         g.setColor(Color.BLACK);
         for (int x = 0; x < Tuning.SCREEN_WIDTH; x += Tuning.TILE_SIZE) {
             g.drawLine(x, 0, x, Tuning.SCREEN_HEIGHT);
