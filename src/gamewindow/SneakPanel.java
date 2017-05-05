@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
+import libraries.ImageTools;
 
 /**
  * The panel of the game.
@@ -18,10 +19,21 @@ import javax.swing.JPanel;
 public class SneakPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
 
     private BufferedImage buffer;
+    BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood;
 
     public SneakPanel() {
         setSize(Tuning.SCREEN_WIDTH, Tuning.SCREEN_HEIGHT);
         buffer = new BufferedImage(Tuning.SCREEN_WIDTH, Tuning.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
+
+        //load all images
+        grass = ImageTools.load("resources/grass.png");
+        ice = ImageTools.load("resources/ice.png");
+        mud = ImageTools.load("resources/mud.png");
+        sand = ImageTools.load("resources/sand.png");
+        stone = ImageTools.load("resources/stone.png");
+        stoneBricks = ImageTools.load("resources/stone-bricks.png");
+        water = ImageTools.load("resources/water.png");
+        wood = ImageTools.load("resources/wood.png");
 
         addMouseListener(this);
         addMouseMotionListener(this);

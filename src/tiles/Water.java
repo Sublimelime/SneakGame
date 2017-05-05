@@ -11,7 +11,7 @@ package tiles;
  */
 public class Water extends Tile {
 
-    public Water(int x, int y, TileType type) {
+    public Water(int x, int y, int type) {
         super(x, y, type);
     }
 

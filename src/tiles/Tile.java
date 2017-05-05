@@ -12,9 +12,10 @@ package tiles;
 public abstract class Tile {
 
     private final int x, y;
-    private final TileType type;
+    private final int type;
+    private final static int GRASS = 0, ICE = 1, MUD = 2, SAND = 3, STONE = 4, STONE_BRICKS = 5, WATER = 6, WOOD = 7;
 
-    public Tile(int x, int y, TileType type) {
+    public Tile(int x, int y, int type) {
         this.x = x;
         this.y = y;
         this.type = type;
@@ -28,7 +29,7 @@ public abstract class Tile {
         return y;
     }
 
-    public TileType getType() {
+    public int getType() {
         return type;
     }
 
