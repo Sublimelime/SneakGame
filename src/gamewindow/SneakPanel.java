@@ -52,7 +52,6 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
         if (!drawNums) {
             return;
         }
-        g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 8));
         int counter = 1;
         for (int i = 10; i < Tuning.SCREEN_HEIGHT; i += Tuning.TILE_SIZE) {
