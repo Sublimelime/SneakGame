@@ -1,5 +1,6 @@
 package gamewindow;
 
+import gamelogic.SneakGame;
 import gamelogic.Tuning;
 import java.awt.*;
 import java.awt.event.*;
@@ -34,6 +35,8 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
         stoneBricks = ImageTools.load("resources/stone-bricks.png");
         water = ImageTools.load("resources/water.png");
         wood = ImageTools.load("resources/wood.png");
+
+        SneakGame game = new SneakGame();
 
         addMouseListener(this);
         addMouseMotionListener(this);

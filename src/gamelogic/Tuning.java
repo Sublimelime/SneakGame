@@ -16,6 +16,10 @@ public class Tuning {
     public final static int SCREEN_WIDTH = 640;
     public final static int SCREEN_HEIGHT = 640;
 
+    //map size
+    public final static int MAP_WIDTH = 120;
+    public final static int MAP_HEIGHT = 40;
+
     //the size of the square tiles in pixels
     public final static int TILE_SIZE = 16;
 

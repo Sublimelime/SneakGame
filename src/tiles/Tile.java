@@ -9,7 +9,7 @@ package tiles;
  *
  * Part of project: ScrollingGame
  */
-public abstract class Tile {
+public class Tile {
 
     private final int x, y;
     private final int type;
