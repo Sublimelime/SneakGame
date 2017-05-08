@@ -18,13 +18,14 @@ public class SneakGame {
     public SneakGame() {
         grid = new Tile[Tuning.MAP_HEIGHT][Tuning.MAP_WIDTH];
         for (int x = 0; x < grid.length; x++) {
-            for (int y = 0; y < grid.length; y++) {
-                grid[x][y] = new Tile(x, y, (int) (Math.random() * 7));
-
-                //todo fix this for loop
+            for (int y = 0; y < grid[x].length; y++) {
+                grid[x][y] = new Tile(y, x, (int) (Math.random() * 7));
             }
-
         }
+    }
+
+    public Tile[][] getGrid() {
+        return grid;
     }
 
 }

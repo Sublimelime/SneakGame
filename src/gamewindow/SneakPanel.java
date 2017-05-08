@@ -21,6 +21,7 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
 
     private BufferedImage buffer;
     BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood;
+    private SneakGame game;
 
     public SneakPanel() {
         setSize(Tuning.SCREEN_WIDTH, Tuning.SCREEN_HEIGHT);
@@ -36,7 +37,7 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
         water = ImageTools.load("resources/water.png");
         wood = ImageTools.load("resources/wood.png");
 
-        SneakGame game = new SneakGame();
+        game = new SneakGame();
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -45,10 +46,48 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
 
     public void paint(Graphics g) {
         Graphics bg = buffer.getGraphics();
+        drawMap(bg);
         if (Tuning.DEBUG) {
             drawGuidelines(bg, true);
         }
+
         g.drawImage(buffer, 0, 0, null);
+    }
+
+    private void drawMap(Graphics g) {
+        for (int x = 0; x < Tuning.MAP_WIDTH * Tuning.TILE_SIZE; x += Tuning.TILE_SIZE) {
+            for (int y = 0; y < Tuning.MAP_HEIGHT * Tuning.TILE_SIZE; y += Tuning.TILE_SIZE) {
+                switch (game.getGrid()[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE].getType()) {
+                    case 0: //grass
+                        g.drawImage(grass, x, y, null);
+                        break;
+                    case 1: //ice
+                        g.drawImage(ice, x, y, null);
+                        break;
+                    case 2: //mud
+                        g.drawImage(mud, x, y, null);
+                        break;
+                    case 3: //sand
+                        g.drawImage(sand, x, y, null);
+                        break;
+                    case 4: //stone
+                        g.drawImage(stone, x, y, null);
+                        break;
+                    case 5: //stone bricks
+                        g.drawImage(stoneBricks, x, y, null);
+                        break;
+                    case 6: //water
+                        g.drawImage(water, x, y, null);
+                        break;
+                    case 7: //wood
+                        g.drawImage(wood, x, y, null);
+                        break;
+                    default:
+                        System.err.println("Cannot determine image to draw from tile type: " + game.getGrid()[x / Tuning.TILE_SIZE][y / Tuning.TILE_SIZE].getType());
+                        break;
+                }
+            }
+        }
     }
 
     /**
