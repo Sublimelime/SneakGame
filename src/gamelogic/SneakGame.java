@@ -1,5 +1,6 @@
 package gamelogic;
 
+import libraries.Logger;
 import tiles.Tile;
 
 /**
@@ -17,11 +18,17 @@ public class SneakGame {
 
     public SneakGame() {
         grid = new Tile[Tuning.MAP_HEIGHT][Tuning.MAP_WIDTH];
+
+        //init all tiles
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[x].length; y++) {
-                grid[x][y] = new Tile(y, x, (int) (Math.random() * 7));
+                grid[x][y] = new Tile(y, x, Tile.VOID);
             }
         }
+        Logger.logCodeMessage("Init all tiles.");
+        //todo extensive code to generate pretty map.
+
+        Logger.logCodeMessage("Made map.");
     }
 
     public Tile[][] getGrid() {

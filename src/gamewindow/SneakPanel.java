@@ -7,6 +7,7 @@ import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import libraries.ImageTools;
+import libraries.Logger;
 
 /**
  * The panel of the game.
@@ -17,10 +18,10 @@ import libraries.ImageTools;
  *
  * Part of project: ScrollingGame
  */
-public class SneakPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener {
+public class SneakPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener, Runnable {
 
     private BufferedImage buffer;
-    BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood;
+    BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood, voidTile;
     private SneakGame game;
 
     public SneakPanel() {
@@ -36,11 +37,14 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
         stoneBricks = ImageTools.load("resources/stone-bricks.png");
         water = ImageTools.load("resources/water.png");
         wood = ImageTools.load("resources/wood.png");
+        voidTile = ImageTools.load("resources/void-tile.png");
 
         game = new SneakGame();
 
         addMouseListener(this);
         addMouseMotionListener(this);
+
+        Logger.logCodeMessage("Initialized panel.");
 
     }
 
@@ -82,6 +86,9 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
                     case 7: //wood
                         g.drawImage(wood, x, y, null);
                         break;
+                    case 8: //void
+                        g.drawImage(voidTile, x, y, null);
+                        break;
                     default:
                         System.err.println("Cannot determine image to draw from tile type: " + game.getGrid()[x / Tuning.TILE_SIZE][y / Tuning.TILE_SIZE].getType());
                         break;
@@ -116,6 +123,19 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
         for (int i = 5; i < Tuning.SCREEN_WIDTH; i += Tuning.TILE_SIZE) {
             g.drawString("" + counter, i, 8);
             counter++;
+        }
+    }
+
+    public void run() {
+        //noinspection InfiniteLoopStatement
+        while (true) {
+            repaint();
+            try {
+                Thread.sleep(35);
+            } catch (InterruptedException e) {
+                System.err.println("Error Sleeping.");
+                Logger.logErrorMessage("Error Sleeping Thread.");
+            }
         }
     }
 
