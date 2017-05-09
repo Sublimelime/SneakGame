@@ -69,7 +69,14 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
      */
     private void drawValidMoves(Graphics g, Tile currentTile) {
         g.setColor(new Color(255, 255, 255, 172));
-        g.fillRect(currentTile.getX(), currentTile.getY(), 16, 16);
+        //up from tile
+        for (int i = 1; i <= currentTile.getMovementRange(); i++) {
+            g.fillRect(currentTile.getX(), i * Tuning.TILE_SIZE, Tuning.TILE_SIZE, Tuning.TILE_SIZE); //todo keep working on this method
+        }
+        //down from tile
+
+        //right from tile
+        //left from tile
     }
 
     /**
