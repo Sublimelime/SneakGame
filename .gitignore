@@ -19,3 +19,4 @@ build/built-jar.properties
 *.netbeans_automatic_build
 build/classes/.netbeans_update_resources
 *.log
+/build/

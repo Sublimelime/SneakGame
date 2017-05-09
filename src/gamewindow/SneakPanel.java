@@ -87,7 +87,11 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
     private void drawMap(Graphics g) {
         for (int x = 0; x < Tuning.MAP_WIDTH * Tuning.TILE_SIZE; x += Tuning.TILE_SIZE) {
             for (int y = 0; y < Tuning.MAP_HEIGHT * Tuning.TILE_SIZE; y += Tuning.TILE_SIZE) {
-                switch (game.getGrid()[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE].getType()) {
+                Tile currentTile = game.getGrid()[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE];
+                if (currentTile.getX() > Tuning.SCREEN_WIDTH || currentTile.getX() < 0) { //don't render offscreen tiles
+                    continue;
+                }
+                switch (currentTile.getType()) { //draw based on type
                     case 0: //grass
                         g.drawImage(grass, x, y, null);
                         break;
@@ -116,7 +120,7 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
                         g.drawImage(voidTile, x, y, null);
                         break;
                     default:
-                        System.err.println("Cannot determine image to draw from tile type: " + game.getGrid()[x / Tuning.TILE_SIZE][y / Tuning.TILE_SIZE].getType());
+                        System.err.println("Cannot determine image to draw from tile type: " + currentTile.getType());
                         break;
                 }
             }
