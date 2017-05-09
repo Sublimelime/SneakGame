@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import libraries.ImageTools;
 import libraries.Logger;
+import tiles.Tile;
 
 /**
  * The panel of the game.
@@ -55,9 +56,27 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
             drawGuidelines(bg, true);
         }
 
+        drawValidMoves(bg, game.getGrid()[20][10]);
+
         g.drawImage(buffer, 0, 0, null);
     }
 
+    /**
+     * Draws 4 rectangles out from the current tile, displaying valid move positions for that tile.
+     *
+     * @param g Graphics to draw to.
+     * @param currentTile Current tile of reference.
+     */
+    private void drawValidMoves(Graphics g, Tile currentTile) {
+        g.setColor(new Color(255, 255, 255, 172));
+        g.fillRect(currentTile.getX(), currentTile.getY(), 16, 16);
+    }
+
+    /**
+     * Draws the map onto the screen
+     *
+     * @param g Graphics to draw onto.
+     */
     private void drawMap(Graphics g) {
         for (int x = 0; x < Tuning.MAP_WIDTH * Tuning.TILE_SIZE; x += Tuning.TILE_SIZE) {
             for (int y = 0; y < Tuning.MAP_HEIGHT * Tuning.TILE_SIZE; y += Tuning.TILE_SIZE) {
@@ -103,7 +122,7 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
      * @param g Graphics to paint the lines onto.
      */
     private void drawGuidelines(Graphics g, final boolean drawNums) {
-        g.setColor(Color.BLACK);
+        g.setColor(Color.WHITE);
         for (int x = 0; x < Tuning.SCREEN_WIDTH; x += Tuning.TILE_SIZE) {
             g.drawLine(x, 0, x, Tuning.SCREEN_HEIGHT);
         }
@@ -114,12 +133,12 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
             return;
         }
         g.setFont(new Font("Arial", Font.BOLD, 8));
-        int counter = 1;
+        int counter = 0;
         for (int i = 10; i < Tuning.SCREEN_HEIGHT; i += Tuning.TILE_SIZE) {
             g.drawString("" + counter, 5, i);
             counter++;
         }
-        counter = 1;
+        counter = 0;
         for (int i = 5; i < Tuning.SCREEN_WIDTH; i += Tuning.TILE_SIZE) {
             g.drawString("" + counter, i, 8);
             counter++;

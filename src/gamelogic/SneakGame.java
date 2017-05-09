@@ -22,7 +22,7 @@ public class SneakGame {
         //init all tiles
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[x].length; y++) {
-                grid[x][y] = new Tile(y, x, Tile.VOID);
+                grid[x][y] = new Tile(y * Tuning.TILE_SIZE, x * Tuning.TILE_SIZE, Tile.VOID);
             }
         }
         Logger.logCodeMessage("Init all tiles.");
