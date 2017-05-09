@@ -19,7 +19,7 @@ import tiles.Tile;
  *
  * Part of project: ScrollingGame
  */
-public class SneakPanel extends JPanel implements MouseListener, MouseMotionListener, KeyListener, Runnable {
+public class SneakPanel extends JPanel implements MouseListener, KeyListener, Runnable {
 
     private BufferedImage buffer;
     BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood, voidTile;
@@ -43,7 +43,7 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
         game = new SneakGame();
 
         addMouseListener(this);
-        addMouseMotionListener(this);
+        addKeyListener(this);
 
         Logger.logCodeMessage("Initialized panel.");
 
@@ -56,8 +56,6 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
             drawGuidelines(bg, true);
         }
 
-        drawValidMoves(bg, game.getGrid()[20][10]);
-
         g.drawImage(buffer, 0, 0, null);
     }
 
@@ -68,15 +66,39 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
      * @param currentTile Current tile of reference.
      */
     private void drawValidMoves(Graphics g, Tile currentTile) {
-        g.setColor(new Color(255, 255, 255, 172));
+        g.setColor(new Color(255, 255, 255, 100));
         //up from tile
         for (int i = 1; i <= currentTile.getMovementRange(); i++) {
-            g.fillRect(currentTile.getX(), i * Tuning.TILE_SIZE, Tuning.TILE_SIZE, Tuning.TILE_SIZE); //todo keep working on this method
+            //stop drawing out if we hit an impassible tile
+            if (!game.convertCoords(currentTile.getX(), currentTile.getY() - (i * Tuning.TILE_SIZE)).isPassable()) {
+                break;
+            }
+            g.fillRect(currentTile.getX(), currentTile.getY() - (i * Tuning.TILE_SIZE), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
         }
         //down from tile
-
+        for (int i = 1; i <= currentTile.getMovementRange(); i++) {
+            //stop drawing out if we hit an impassible tile
+            if (!game.convertCoords(currentTile.getX(), currentTile.getY() + (i * Tuning.TILE_SIZE)).isPassable()) {
+                break;
+            }
+            g.fillRect(currentTile.getX(), currentTile.getY() + (i * Tuning.TILE_SIZE), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
+        }
         //right from tile
+        for (int i = 1; i <= currentTile.getMovementRange(); i++) {
+            //stop drawing out if we hit an impassible tile
+            if (!game.convertCoords(currentTile.getX() + (i * Tuning.TILE_SIZE), currentTile.getY()).isPassable()) {
+                break;
+            }
+            g.fillRect(currentTile.getX() + (i * Tuning.TILE_SIZE), currentTile.getY(), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
+        }
         //left from tile
+        for (int i = 1; i <= currentTile.getMovementRange(); i++) {
+            //stop drawing out if we hit an impassible tile
+            if (!game.convertCoords(currentTile.getX() - (i * Tuning.TILE_SIZE), currentTile.getY()).isPassable()) {
+                break;
+            }
+            g.fillRect(currentTile.getX() - (i * Tuning.TILE_SIZE), currentTile.getY(), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
+        }
     }
 
     /**
@@ -171,51 +193,46 @@ public class SneakPanel extends JPanel implements MouseListener, MouseMotionList
 
     @Override
     public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (e.getKeyChar() == 'n') {
+            System.out.println("Making new game.");
+            Logger.logCodeMessage("Making new game.");
+            game = new SneakGame();
+        }
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //unused
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //unused
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //unused
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        //unused
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
+        //unused
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-    }
-
-    @Override
-    public void mouseDragged(MouseEvent e) {
-
-    }
-
-    @Override
-    public void mouseMoved(MouseEvent e) {
-
+        //unused
     }
 
 }

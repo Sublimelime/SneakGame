@@ -35,4 +35,15 @@ public class SneakGame {
         return grid;
     }
 
+    /**
+     * Takes int coords in pixels, and resolves it to a tile on the board.
+     *
+     * @param x X in pixels
+     * @param y Y in pixels
+     * @return The tile that corresponds to those coords.
+     */
+    public Tile convertCoords(int x, int y) {
+        return grid[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE]; //FIXME when we add scrolling, need to account for shift
+    }
+
 }
