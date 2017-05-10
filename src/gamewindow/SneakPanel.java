@@ -22,7 +22,7 @@ import tiles.Tile;
 public class SneakPanel extends JPanel implements MouseListener, KeyListener, Runnable {
 
     private BufferedImage buffer;
-    BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood, voidTile, player;
+    BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood, voidTile, playerRight, playerUp, playerDown, playerLeft;
     private SneakGame game;
 
     public SneakPanel() {
@@ -39,7 +39,12 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         water = ImageTools.load("resources/water.png");
         wood = ImageTools.load("resources/wood.png");
         voidTile = ImageTools.load("resources/void-tile.png");
-        player = ImageTools.load("resources/player.png");
+
+        //player
+        playerRight = ImageTools.load("resources/player.png");
+        playerDown = ImageTools.rotate(playerRight, 90);
+        playerUp = ImageTools.rotate(playerRight, -90);
+        playerLeft = ImageTools.rotate(playerRight, 180);
 
         game = new SneakGame();
 
@@ -57,7 +62,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             drawGuidelines(bg, true);
         }
 
-        bg.fillRect(game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
+        bg.drawImage(playerRight, game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), null);
         drawValidMoves(bg, game.getPlayer().getCurrentTile());
 
         g.drawImage(buffer, 0, 0, null);
@@ -79,31 +84,37 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             if (y > Tuning.SCREEN_HEIGHT || x > Tuning.SCREEN_WIDTH || y < 0 || x < 0 || !game.convertCoords(x, y).isPassable()) {
                 break;
             }
-            g.fillRect(currentTile.getX(), currentTile.getY() - (i * Tuning.TILE_SIZE), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
+            g.fillRect(x, y, Tuning.TILE_SIZE, Tuning.TILE_SIZE);
         }
         //down from tile
         for (int i = 1; i <= currentTile.getMovementRange(); i++) {
+            int y = currentTile.getY() + (i * Tuning.TILE_SIZE);
+            int x = currentTile.getX();
             //stop drawing out if we hit an impassible tile
-            if (!game.convertCoords(currentTile.getX(), currentTile.getY() + (i * Tuning.TILE_SIZE)).isPassable()) {
+            if (y > Tuning.SCREEN_HEIGHT || x > Tuning.SCREEN_WIDTH || y < 0 || x < 0 || !game.convertCoords(x, y).isPassable()) {
                 break;
             }
-            g.fillRect(currentTile.getX(), currentTile.getY() + (i * Tuning.TILE_SIZE), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
+            g.fillRect(x, y, Tuning.TILE_SIZE, Tuning.TILE_SIZE);
         }
         //right from tile
         for (int i = 1; i <= currentTile.getMovementRange(); i++) {
+            int y = currentTile.getY();
+            int x = currentTile.getX() + (i * Tuning.TILE_SIZE);
             //stop drawing out if we hit an impassible tile
-            if (!game.convertCoords(currentTile.getX() + (i * Tuning.TILE_SIZE), currentTile.getY()).isPassable()) {
+            if (y > Tuning.SCREEN_HEIGHT || x > Tuning.SCREEN_WIDTH || y < 0 || x < 0 || !game.convertCoords(x, y).isPassable()) {
                 break;
             }
-            g.fillRect(currentTile.getX() + (i * Tuning.TILE_SIZE), currentTile.getY(), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
+            g.fillRect(x, y, Tuning.TILE_SIZE, Tuning.TILE_SIZE);
         }
         //left from tile
         for (int i = 1; i <= currentTile.getMovementRange(); i++) {
+            int y = currentTile.getY();
+            int x = currentTile.getX() - (i * Tuning.TILE_SIZE);
             //stop drawing out if we hit an impassible tile
-            if (!game.convertCoords(currentTile.getX() - (i * Tuning.TILE_SIZE), currentTile.getY()).isPassable()) {
+            if (y > Tuning.SCREEN_HEIGHT || x > Tuning.SCREEN_WIDTH || y < 0 || x < 0 || !game.convertCoords(x, y).isPassable()) {
                 break;
             }
-            g.fillRect(currentTile.getX() - (i * Tuning.TILE_SIZE), currentTile.getY(), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
+            g.fillRect(x, y, Tuning.TILE_SIZE, Tuning.TILE_SIZE);
         }
     }
 
