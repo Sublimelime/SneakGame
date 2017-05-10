@@ -198,6 +198,14 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         }
     }
 
+    public boolean isValidMove(Tile t) {
+        if ((t.getX() >= 0 && t.getX() <= Tuning.MAP_WIDTH) && (t.getY() >= 0 && t.getY() <= Tuning.MAP_HEIGHT)) {
+            if ((Math.abs(t.getX() - game.getPlayer().getCurrentTile().getX())) <= (t.getMovementRange()*Tuning.TILE_SIZE)) {
+
+            }
+        }
+    }
+
     public void run() {
         //noinspection InfiniteLoopStatement
         while (true) {
