@@ -56,6 +56,9 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             drawGuidelines(bg, true);
         }
 
+        bg.fillRect(game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
+        drawValidMoves(bg, game.getPlayer().getCurrentTile());
+
         g.drawImage(buffer, 0, 0, null);
     }
 
@@ -69,8 +72,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         g.setColor(new Color(255, 255, 255, 100));
         //up from tile
         for (int i = 1; i <= currentTile.getMovementRange(); i++) {
+            int y = currentTile.getY() - (i * Tuning.TILE_SIZE);
+            int x = currentTile.getX();
             //stop drawing out if we hit an impassible tile
-            if (!game.convertCoords(currentTile.getX(), currentTile.getY() - (i * Tuning.TILE_SIZE)).isPassable()) {
+            if (y > Tuning.SCREEN_HEIGHT || x > Tuning.SCREEN_WIDTH || y < 0 || x < 0 || !game.convertCoords(x, y).isPassable()) {
                 break;
             }
             g.fillRect(currentTile.getX(), currentTile.getY() - (i * Tuning.TILE_SIZE), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
@@ -233,6 +238,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     @Override
     public void mouseExited(MouseEvent e) {
         //unused
+    }
+
+    public SneakGame getGame() {
+        return game;
     }
 
 }

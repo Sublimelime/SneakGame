@@ -15,6 +15,7 @@ import tiles.Tile;
 public class SneakGame {
 
     private Tile[][] grid;
+    private final Player player;
 
     public SneakGame() {
         grid = new Tile[Tuning.MAP_HEIGHT][Tuning.MAP_WIDTH];
@@ -22,13 +23,16 @@ public class SneakGame {
         //init all tiles
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[x].length; y++) {
-                grid[x][y] = new Tile(y * Tuning.TILE_SIZE, x * Tuning.TILE_SIZE, Tile.VOID);
+                grid[x][y] = new Tile(y * Tuning.TILE_SIZE, x * Tuning.TILE_SIZE, Tile.GRASS);
             }
         }
         Logger.logCodeMessage("Init all tiles.");
         //todo extensive code to generate pretty map.
 
         Logger.logCodeMessage("Made map.");
+
+        //todo place player in starting pos
+        player = new Player((int) (Math.random() * 100), (int) (Math.random() * 100), this);
     }
 
     public Tile[][] getGrid() {
@@ -44,6 +48,10 @@ public class SneakGame {
      */
     public Tile convertCoords(int x, int y) {
         return grid[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE]; //FIXME when we add scrolling, need to account for shift
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
 }
