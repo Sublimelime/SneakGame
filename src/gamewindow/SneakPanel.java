@@ -53,6 +53,9 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
         Logger.logCodeMessage("Initialized panel.");
 
+        Thread t = new Thread(this);
+        t.start();
+
     }
 
     public void paint(Graphics g) {

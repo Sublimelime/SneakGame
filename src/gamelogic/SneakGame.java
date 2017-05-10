@@ -33,6 +33,7 @@ public class SneakGame {
 
         //todo place player in starting pos
         player = new Player((int) (Math.random() * 100), (int) (Math.random() * 100), this);
+        Logger.logCodeMessage("Made new player at: " + player.getX() + ", " + player.getY());
     }
 
     public Tile[][] getGrid() {
