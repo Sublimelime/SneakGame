@@ -31,6 +31,7 @@ public class SneakGame {
 
         for (int i = 0; i < 5; i++) {
             makeSandPit(grid[(int) (Math.random() * 40)][(int) (Math.random() * 30)]);
+            makeMudPit(grid[(int) (Math.random() * 40)][(int) (Math.random() * 30)]);
         }
 
         Logger.logCodeMessage("Made map.");
@@ -49,15 +50,27 @@ public class SneakGame {
         t.setType(Tile.SAND); //set sent tile to sand
         for (int x = t.getX() - (3 * Tuning.TILE_SIZE); x < t.getX() + (3 * Tuning.TILE_SIZE); x += Tuning.TILE_SIZE) {
             for (int y = t.getY() - (3 * Tuning.TILE_SIZE); y < t.getY() + (3 * Tuning.TILE_SIZE); y += Tuning.TILE_SIZE) {
-                double rand = Math.random();
-                System.out.println(rand);
-                if (rand > 0.5) {
-                    continue;
-                }
-                if (convertCoords(x, y) == null) { //outside board
+                if (Math.random() > 0.7 || convertCoords(x, y) == null) { //outside board
                     continue;
                 }
                 convertCoords(x, y).setType(Tile.SAND);
+            }
+        }
+    }
+
+    /**
+     * Makes a mud pit, given an origin tile
+     *
+     * @param t Tile to originate from
+     */
+    private void makeMudPit(Tile t) {
+        t.setType(Tile.MUD); //set sent tile to sand
+        for (int x = t.getX() - (3 * Tuning.TILE_SIZE); x < t.getX() + (3 * Tuning.TILE_SIZE); x += Tuning.TILE_SIZE) {
+            for (int y = t.getY() - (3 * Tuning.TILE_SIZE); y < t.getY() + (3 * Tuning.TILE_SIZE); y += Tuning.TILE_SIZE) {
+                if (Math.random() > 0.7 || convertCoords(x, y) == null) { //outside board
+                    continue;
+                }
+                convertCoords(x, y).setType(Tile.MUD);
             }
         }
     }
