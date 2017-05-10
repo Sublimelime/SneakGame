@@ -241,6 +241,11 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         //unused
     }
 
+    public void addNotify() {
+        super.addNotify();
+        requestFocus();
+    }
+
     public SneakGame getGame() {
         return game;
     }
