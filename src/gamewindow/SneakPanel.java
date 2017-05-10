@@ -22,7 +22,7 @@ import tiles.Tile;
 public class SneakPanel extends JPanel implements MouseListener, KeyListener, Runnable {
 
     private BufferedImage buffer;
-    BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood, voidTile;
+    BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood, voidTile, player;
     private SneakGame game;
 
     public SneakPanel() {
@@ -39,6 +39,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         water = ImageTools.load("resources/water.png");
         wood = ImageTools.load("resources/wood.png");
         voidTile = ImageTools.load("resources/void-tile.png");
+        player = ImageTools.load("resources/player.png");
 
         game = new SneakGame();
 
