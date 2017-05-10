@@ -22,7 +22,7 @@ import tiles.Tile;
 public class SneakPanel extends JPanel implements MouseListener, KeyListener, Runnable {
 
     private BufferedImage buffer;
-    BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood, voidTile, player;
+    BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood, voidTile, playerRight, playerUp, playerDown, playerLeft;
     private SneakGame game;
 
     public SneakPanel() {
@@ -39,7 +39,12 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         water = ImageTools.load("resources/water.png");
         wood = ImageTools.load("resources/wood.png");
         voidTile = ImageTools.load("resources/void-tile.png");
-        player = ImageTools.load("resources/player.png");
+
+        //player
+        playerRight = ImageTools.load("resources/player.png");
+        playerDown = ImageTools.rotate(playerRight, 90);
+        playerUp = ImageTools.rotate(playerRight, -90);
+        playerLeft = ImageTools.rotate(playerRight, 180);
 
         game = new SneakGame();
 
@@ -57,7 +62,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             drawGuidelines(bg, true);
         }
 
-        bg.drawImage(player, game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), null);
+        bg.drawImage(playerRight, game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), null);
         drawValidMoves(bg, game.getPlayer().getCurrentTile());
 
         g.drawImage(buffer, 0, 0, null);
