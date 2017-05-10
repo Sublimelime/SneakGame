@@ -57,7 +57,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             drawGuidelines(bg, true);
         }
 
-        bg.fillRect(game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), Tuning.TILE_SIZE, Tuning.TILE_SIZE);
+        bg.drawImage(player, game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), null);
         drawValidMoves(bg, game.getPlayer().getCurrentTile());
 
         g.drawImage(buffer, 0, 0, null);
