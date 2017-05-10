@@ -24,5 +24,5 @@ public class Tuning {
     public final static int TILE_SIZE = 16;
 
     //set to true if debugging
-    public final static boolean DEBUG = true;
+    public final static boolean DEBUG = false, SHOULD_PRINT_ERRORS = false;
 }

@@ -32,11 +32,13 @@ public class SneakGame {
         for (int i = 0; i < 5; i++) {
             makeSandPit(grid[(int) (Math.random() * 40)][(int) (Math.random() * 30)]);
             makeMudPit(grid[(int) (Math.random() * 40)][(int) (Math.random() * 30)]);
-            //makeRiver(grid[0][(int) (Math.random() * 50)]);
         }
 
         makeRiver(grid[0][10]);
+        makeRiver(grid[0][20]); //todo figure out placements later
+        makeRiver(grid[0][40]);
 
+        //makeRiver(grid[0][10]);
         Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
         voidToGrass();
         Logger.logCodeMessage("Made map.");
@@ -87,6 +89,7 @@ public class SneakGame {
      * @param t Origin tile, should be in row 0.
      */
     private void makeRiver(Tile t) {
+        //todo sometimes generates impassible rivers
         int x = t.getX();
         int y = t.getY();
         if (y != 0) {
@@ -98,8 +101,8 @@ public class SneakGame {
 
         for (int i = 0; i < Tuning.MAP_HEIGHT - 1; i++) {
             y += Tuning.TILE_SIZE;
-            System.out.println("Y:" + y);
-            System.out.println("X" + x);
+            //System.out.println("Y:" + y);
+            //System.out.println("X" + x);
             if (Math.random() > 0.2) { //go down
                 if (Math.random() > 0.1) { //make water
                     convertCoords(x, y).setType(Tile.WATER);
@@ -152,6 +155,9 @@ public class SneakGame {
         try {
             return grid[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE]; //FIXME when we add scrolling, need to account for shift
         } catch (ArrayIndexOutOfBoundsException e) {
+            if (Tuning.DEBUG && Tuning.SHOULD_PRINT_ERRORS) {
+                e.printStackTrace();
+            }
             return null;
         }
     }
