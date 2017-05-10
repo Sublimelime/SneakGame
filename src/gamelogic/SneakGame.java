@@ -29,6 +29,10 @@ public class SneakGame {
         Logger.logCodeMessage("Init all tiles.");
         //todo extensive code to generate pretty map.
 
+        for (int i = 0; i < 5; i++) {
+            makeSandPit(grid[(int) (Math.random() * 40)][(int) (Math.random() * 30)]);
+        }
+
         Logger.logCodeMessage("Made map.");
 
         //todo place player in starting pos
@@ -43,8 +47,13 @@ public class SneakGame {
      */
     private void makeSandPit(Tile t) {
         t.setType(Tile.SAND); //set sent tile to sand
-        for (int x = t.getX() - (3 * Tuning.TILE_SIZE); x < t.getX() + (3 * Tuning.TILE_SIZE); x++) {
-            for (int y = t.getY() - (3 * Tuning.TILE_SIZE); y < t.getY() + (3 * Tuning.TILE_SIZE); y++) {
+        for (int x = t.getX() - (3 * Tuning.TILE_SIZE); x < t.getX() + (3 * Tuning.TILE_SIZE); x += Tuning.TILE_SIZE) {
+            for (int y = t.getY() - (3 * Tuning.TILE_SIZE); y < t.getY() + (3 * Tuning.TILE_SIZE); y += Tuning.TILE_SIZE) {
+                double rand = Math.random();
+                System.out.println(rand);
+                if (rand > 0.5) {
+                    continue;
+                }
                 if (convertCoords(x, y) == null) { //outside board
                     continue;
                 }
