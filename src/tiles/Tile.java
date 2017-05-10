@@ -11,7 +11,7 @@ package tiles;
  */
 public class Tile {
 
-    private final int x, y;
+    private final int x, y; //stores pixel location
     private int type, movementRange;
     private boolean passable;
     public final static int GRASS = 0, ICE = 1, MUD = 2, SAND = 3, STONE = 4, STONE_BRICKS = 5, WATER = 6, WOOD = 7, VOID = 8;
