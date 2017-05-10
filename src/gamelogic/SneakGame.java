@@ -32,8 +32,13 @@ public class SneakGame {
         for (int i = 0; i < 5; i++) {
             makeSandPit(grid[(int) (Math.random() * 40)][(int) (Math.random() * 30)]);
             makeMudPit(grid[(int) (Math.random() * 40)][(int) (Math.random() * 30)]);
+            //makeRiver(grid[0][(int) (Math.random() * 50)]);
         }
 
+        makeRiver(grid[0][10]);
+
+        Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
+        voidToGrass();
         Logger.logCodeMessage("Made map.");
 
         //todo place player in starting pos
@@ -71,6 +76,63 @@ public class SneakGame {
                     continue;
                 }
                 convertCoords(x, y).setType(Tile.MUD);
+            }
+        }
+    }
+
+    /**
+     * Creates a river down from the top row. Intersperces random bridges.
+     * Note: Does not always make valid passable rivers.
+     *
+     * @param t Origin tile, should be in row 0.
+     */
+    private void makeRiver(Tile t) {
+        int x = t.getX();
+        int y = t.getY();
+        if (y != 0) {
+            System.err.println("Tried to make river in non-sensical position.");
+            return;
+        }
+
+        convertCoords(x, y).setType(Tile.WATER);
+
+        for (int i = 0; i < Tuning.MAP_HEIGHT - 1; i++) {
+            y += Tuning.TILE_SIZE;
+            System.out.println("Y:" + y);
+            System.out.println("X" + x);
+            if (Math.random() > 0.2) { //go down
+                if (Math.random() > 0.1) { //make water
+                    convertCoords(x, y).setType(Tile.WATER);
+                } else { //make bridge
+                    convertCoords(x, y).setType(Tile.WOOD);
+                }
+            } else { //go sideways
+                if (Math.random() > 0.5) {
+                    convertCoords(x, y).setType(Tile.WATER);
+                    if (x + Tuning.TILE_SIZE < Tuning.MAP_WIDTH * Tuning.TILE_SIZE) {
+                        x += Tuning.TILE_SIZE;
+                    }
+                    convertCoords(x, y).setType(Tile.WATER);
+                } else {
+                    convertCoords(x, y).setType(Tile.WATER);
+                    if (x - Tuning.TILE_SIZE > 0) {
+                        x -= Tuning.TILE_SIZE;
+                    }
+                    convertCoords(x, y).setType(Tile.WATER);
+                }
+            }
+        }
+    }
+
+    /**
+     * Sets the remainder of all tiles still void to grass.
+     */
+    private void voidToGrass() {
+        for (Tile[] grid1 : grid) {
+            for (Tile grid11 : grid1) {
+                if (grid11.getType() == Tile.VOID) {
+                    grid11.setType(Tile.GRASS);
+                }
             }
         }
     }
