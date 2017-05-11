@@ -231,15 +231,19 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         int tY = t.getY();
         int tX = t.getX();
         Tile playerTile = game.getPlayer().getCurrentTile();
+        int yDiff = Math.abs(tY - playerTile.getY()), xDiff = Math.abs(tX - playerTile.getX());
 
+        //if move is even inside the map
         if ((tX >= 0 && tX <= (Tuning.TILE_SIZE * Tuning.MAP_WIDTH)) && (tY >= 0 && tY <= (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT))) {
-            if ((Math.abs(tX - playerTile.getX())) <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
-                if ((Math.abs(tY - playerTile.getY())) == 0) {
+            //if the x is within range of the tile
+            if (xDiff <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
+                if (tY == playerTile.getY()) { //if y values match
                     return true;
                 }
             }
-            if ((Math.abs(tY - playerTile.getY())) <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
-                if ((Math.abs(tX - playerTile.getX())) == 0) {
+            //if the y is within range of the tile
+            if (yDiff <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
+                if (tX == playerTile.getX()) { //if x values match
                     return true;
                 }
             }
