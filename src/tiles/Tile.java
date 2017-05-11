@@ -50,7 +50,7 @@ public class Tile {
                 passable = true;
                 break;
             case 1: //ice
-                movementRange = 3;
+                movementRange = 4;
                 passable = true;
                 break;
             case 2: //mud
@@ -58,7 +58,7 @@ public class Tile {
                 passable = true;
                 break;
             case 3: //sand
-                movementRange = 1;
+                movementRange = 2;
                 passable = true;
                 break;
             case 4: //stone
@@ -85,6 +85,7 @@ public class Tile {
                 System.err.println("Cannot determine max movement dist from tile type: " + type);
                 passable = false;
                 movementRange = 0;
+                this.type = Tile.VOID;
                 break;
         }
     }
