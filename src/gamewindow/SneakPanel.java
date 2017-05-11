@@ -228,6 +228,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      * @return True if the player can move to t.
      */
     public boolean isValidMove(Tile t) {
+        //todo fix issue with being able to jump over impassible tiles
         if (!t.isPassable()) { //don't even check if dest isn't passable
             return false;
         }
@@ -259,7 +260,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         while (true) {
             repaint();
             try {
-                Thread.sleep(35);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 System.err.println("Error Sleeping.");
                 Logger.logErrorMessage("Error Sleeping Thread.");
