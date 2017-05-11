@@ -13,7 +13,7 @@ public class Tuning {
 
     //todo placeholder size
     //Size of the screen
-    public final static int SCREEN_WIDTH = 640;
+    public final static int SCREEN_WIDTH = 1920; //640 for normal, 1920 to show whole map
     public final static int SCREEN_HEIGHT = 640;
 
     //map size
