@@ -228,6 +228,9 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      * @return True if the player can move to t.
      */
     public boolean isValidMove(Tile t) {
+        if (!t.isPassable()) { //don't even check if dest isn't passable
+            return false;
+        }
         int tY = t.getY();
         int tX = t.getX();
         Tile playerTile = game.getPlayer().getCurrentTile();
