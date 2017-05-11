@@ -228,14 +228,18 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      * @return True if the player can move to t.
      */
     public boolean isValidMove(Tile t) {
-        if ((t.getX() >= 0 && t.getX() <= (Tuning.TILE_SIZE * Tuning.MAP_WIDTH)) && (t.getY() >= 0 && t.getY() <= (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT))) {
-            if ((Math.abs(t.getX() - game.getPlayer().getCurrentTile().getX())) <= (game.getPlayer().getCurrentTile().getMovementRange() * Tuning.TILE_SIZE)) {
-                if ((Math.abs(t.getY() - game.getPlayer().getCurrentTile().getY())) == 0) {
+        int tY = t.getY();
+        int tX = t.getX();
+        Tile playerTile = game.getPlayer().getCurrentTile();
+
+        if ((tX >= 0 && tX <= (Tuning.TILE_SIZE * Tuning.MAP_WIDTH)) && (tY >= 0 && tY <= (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT))) {
+            if ((Math.abs(tX - playerTile.getX())) <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
+                if ((Math.abs(tY - playerTile.getY())) == 0) {
                     return true;
                 }
             }
-            if ((Math.abs(t.getY() - game.getPlayer().getCurrentTile().getY())) <= (game.getPlayer().getCurrentTile().getMovementRange() * Tuning.TILE_SIZE)) {
-                if ((Math.abs(t.getX() - game.getPlayer().getCurrentTile().getX())) == 0) {
+            if ((Math.abs(tY - playerTile.getY())) <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
+                if ((Math.abs(tX - playerTile.getX())) == 0) {
                     return true;
                 }
             }
