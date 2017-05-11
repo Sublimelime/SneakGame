@@ -34,9 +34,9 @@ public class SneakGame {
             makeMudPit(grid[(int) (Math.random() * 40)][(int) (Math.random() * 30)]);
         }
 
-        makeRiver(grid[0][10]);
-        makeRiver(grid[0][20]); //todo figure out placements later
-        makeRiver(grid[0][40]);
+        makeRiver(grid[0][Tuning.MAP_WIDTH / 4]);
+        makeRiver(grid[0][Tuning.MAP_WIDTH / 2]); //todo figure out placements later
+        makeRiver(grid[0][3 * (Tuning.MAP_WIDTH / 4)]);
 
         //makeRiver(grid[0][10]);
         Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
@@ -98,16 +98,19 @@ public class SneakGame {
         }
 
         convertCoords(x, y).setType(Tile.WATER);
-
+        int bridges = 0;
         for (int i = 0; i < Tuning.MAP_HEIGHT - 1; i++) {
             y += Tuning.TILE_SIZE;
             //System.out.println("Y:" + y);
             //System.out.println("X" + x);
+
+            //keep generating river
             if (Math.random() > 0.2) { //go down
                 if (Math.random() > 0.1) { //make water
                     convertCoords(x, y).setType(Tile.WATER);
                 } else { //make bridge
                     convertCoords(x, y).setType(Tile.WOOD);
+                    bridges++;
                 }
             } else { //go sideways
                 if (Math.random() > 0.5) {
@@ -123,6 +126,12 @@ public class SneakGame {
                     }
                     convertCoords(x, y).setType(Tile.WATER);
                 }
+            }
+
+            //ensure a bridge always gens
+            if (i == Tuning.MAP_HEIGHT / 2 && bridges < 1) {
+                convertCoords(x, y).setType(Tile.WOOD);
+                bridges++;
             }
         }
     }

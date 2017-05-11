@@ -15,6 +15,7 @@ public class Tile {
     private int type, movementRange;
     private boolean passable;
     public final static int GRASS = 0, ICE = 1, MUD = 2, SAND = 3, STONE = 4, STONE_BRICKS = 5, WATER = 6, WOOD = 7, VOID = 8;
+    private int grassType; //integer, 0-3
 
     public Tile(int x, int y, int type) {
         this.x = x;
@@ -47,6 +48,7 @@ public class Tile {
         switch (type) {
             case 0: //grass
                 movementRange = 3;
+                grassType = (int) (Math.random() * 3);
                 passable = true;
                 break;
             case 1: //ice
@@ -88,6 +90,10 @@ public class Tile {
                 this.type = Tile.VOID;
                 break;
         }
+    }
+
+    public int getGrassType() {
+        return grassType;
     }
 
     @Override

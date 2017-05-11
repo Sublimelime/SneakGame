@@ -199,18 +199,11 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     }
 
     public boolean isValidMove(Tile t) {
-        if ((t.getX() >= 0 && t.getX() <= (Tuning.TILE_SIZE*Tuning.MAP_WIDTH)) && (t.getY() >= 0 && t.getY() <= (Tuning.TILE_SIZE*Tuning.MAP_HEIGHT))) {
-            if ((Math.abs(t.getX() - game.getPlayer().getCurrentTile().getX())) <= (game.getPlayer().getCurrentTile().getMovementRange()*Tuning.TILE_SIZE)) {
-                if ((Math.abs(t.getY() - game.getPlayer().getCurrentTile().getY())) == 0) {
-                    return true;
-                }
-            } if ((Math.abs(t.getY() - game.getPlayer().getCurrentTile().getY())) <= (game.getPlayer().getCurrentTile().getMovementRange()*Tuning.TILE_SIZE)) {
-                if ((Math.abs(t.getX() - game.getPlayer().getCurrentTile().getX())) == 0) {
-                    return true;
-                }
+        if ((t.getX() >= 0 && t.getX() <= Tuning.MAP_WIDTH) && (t.getY() >= 0 && t.getY() <= Tuning.MAP_HEIGHT)) {
+            if ((Math.abs(t.getX() - game.getPlayer().getCurrentTile().getX())) <= (t.getMovementRange()*Tuning.TILE_SIZE)) {
+
             }
         }
-        return false;
     }
 
     public void run() {
@@ -236,16 +229,6 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
-
-        if (isValidMove(game.convertCoords(x,y))) {
-
-        }
-    }
-
-    @Override
     public void keyPressed(KeyEvent e) {
         //unused
     }
@@ -253,6 +236,11 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     @Override
     public void keyReleased(KeyEvent e) {
         //unused
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
     }
 
     @Override
