@@ -32,6 +32,7 @@ public class Player {
 
     public void setX(int x) {
         this.x = x;
+        currentTile = game.convertCoords(x, y);
     }
 
     public int getY() {
@@ -40,6 +41,7 @@ public class Player {
 
     public void setY(int y) {
         this.y = y;
+        currentTile = game.convertCoords(x, y);
     }
 
     public Tile getCurrentTile() {
