@@ -1,7 +1,6 @@
 package gamewindow;
 
-import gamelogic.SneakGame;
-import gamelogic.Tuning;
+import gamelogic.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
@@ -247,6 +246,40 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             //if the y is within range of the tile
             if (yDiff <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
                 if (tX == playerTile.getX()) { //if x values match
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks if a move is valid based on the enemy's location.
+     *
+     * @param t Tile attempted to move to.
+     * @param e Enemy to do checks for.
+     * @return True if the player can move to t.
+     */
+    public boolean isValidMove(Enemy e, Tile t) {
+        if (!t.isPassable()) { //don't even check if dest isn't passable
+            return false;
+        }
+        int tY = t.getY();
+        int tX = t.getX();
+        Tile enemyTile = e.getCurrentTile();
+        int yDiff = Math.abs(tY - enemyTile.getY()), xDiff = Math.abs(tX - enemyTile.getX());
+
+        //if move is even inside the map
+        if ((tX >= 0 && tX <= (Tuning.TILE_SIZE * Tuning.MAP_WIDTH)) && (tY >= 0 && tY <= (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT))) {
+            //if the x is within range of the tile
+            if (xDiff <= (enemyTile.getMovementRange() * Tuning.TILE_SIZE)) {
+                if (tY == enemyTile.getY()) { //if y values match
+                    return true;
+                }
+            }
+            //if the y is within range of the tile
+            if (yDiff <= (enemyTile.getMovementRange() * Tuning.TILE_SIZE)) {
+                if (tX == enemyTile.getX()) { //if x values match
                     return true;
                 }
             }
