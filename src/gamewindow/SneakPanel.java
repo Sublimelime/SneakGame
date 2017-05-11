@@ -22,7 +22,11 @@ import tiles.Tile;
 public class SneakPanel extends JPanel implements MouseListener, KeyListener, Runnable {
 
     private BufferedImage buffer;
-    BufferedImage grass, ice, mud, sand, stone, stoneBricks, water, wood, voidTile, playerRight, playerUp, playerDown, playerLeft;
+    //tiles
+    BufferedImage grass, grass2, grass3, grass4, ice, mud, sand, stone, stoneBricks, water, wood, voidTile;
+    //entities
+    BufferedImage playerRight, playerUp, playerDown, playerLeft;
+
     private SneakGame game;
 
     public SneakPanel() {
@@ -31,6 +35,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
         //load all images
         grass = ImageTools.load("resources/grass.png");
+        grass2 = ImageTools.rotate(grass, 90);
+        grass3 = ImageTools.rotate(grass, 180);
+        grass4 = ImageTools.rotate(grass, -90);
+
         ice = ImageTools.load("resources/ice.png");
         mud = ImageTools.load("resources/mud.png");
         sand = ImageTools.load("resources/sand.png");
@@ -135,7 +143,22 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 }
                 switch (currentTile.getType()) { //draw based on type
                     case 0: //grass
-                        g.drawImage(grass, x, y, null);
+                        switch (currentTile.getGrassType()) {
+                            case 0:
+                                g.drawImage(grass, x, y, null);
+                                break;
+                            case 1:
+                                g.drawImage(grass2, x, y, null);
+                                break;
+                            case 2:
+                                g.drawImage(grass3, x, y, null);
+                                break;
+                            case 3:
+                                g.drawImage(grass4, x, y, null);
+                                break;
+                            default:
+                                break;
+                        }
                         break;
                     case 1: //ice
                         g.drawImage(ice, x, y, null);
@@ -198,12 +221,26 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         }
     }
 
+    /**
+     * Checks if a move is valid based on the player's location.
+     *
+     * @param t Tile attempted to move to.
+     * @return True if the player can move to t.
+     */
     public boolean isValidMove(Tile t) {
-        if ((t.getX() >= 0 && t.getX() <= Tuning.MAP_WIDTH) && (t.getY() >= 0 && t.getY() <= Tuning.MAP_HEIGHT)) {
-            if ((Math.abs(t.getX() - game.getPlayer().getCurrentTile().getX())) <= (t.getMovementRange()*Tuning.TILE_SIZE)) {
-
+        if ((t.getX() >= 0 && t.getX() <= (Tuning.TILE_SIZE * Tuning.MAP_WIDTH)) && (t.getY() >= 0 && t.getY() <= (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT))) {
+            if ((Math.abs(t.getX() - game.getPlayer().getCurrentTile().getX())) <= (game.getPlayer().getCurrentTile().getMovementRange() * Tuning.TILE_SIZE)) {
+                if ((Math.abs(t.getY() - game.getPlayer().getCurrentTile().getY())) == 0) {
+                    return true;
+                }
+            }
+            if ((Math.abs(t.getY() - game.getPlayer().getCurrentTile().getY())) <= (game.getPlayer().getCurrentTile().getMovementRange() * Tuning.TILE_SIZE)) {
+                if ((Math.abs(t.getX() - game.getPlayer().getCurrentTile().getX())) == 0) {
+                    return true;
+                }
             }
         }
+        return false;
     }
 
     public void run() {
