@@ -29,15 +29,30 @@ public class SneakGame {
         Logger.logCodeMessage("Init all tiles.");
         //todo extensive code to generate pretty map.
 
+        //SAND/MUD PITS -------------------------
         for (int i = 0; i < 8; i++) {
             makeSandPit(grid[(int) (Math.random() * Tuning.MAP_HEIGHT)][(int) (Math.random() * Tuning.MAP_WIDTH)]);
             makeMudPit(grid[(int) (Math.random() * Tuning.MAP_HEIGHT)][(int) (Math.random() * Tuning.MAP_WIDTH)]);
         }
 
-        makeRiver(grid[0][Tuning.MAP_WIDTH / 4]);
-        makeRiver(grid[0][Tuning.MAP_WIDTH / 2]); //todo figure out placements later
-        makeRiver(grid[0][3 * (Tuning.MAP_WIDTH / 4)]);
+        //RIVERS -------------------------------
+        if (Math.random() > 0.2) {
+            makeRiver(grid[0][Tuning.MAP_WIDTH / 4]);
+        } else {
+            makeIceRiver(grid[0][Tuning.MAP_WIDTH / 4]);
+        }
+        if (Math.random() > 0.2) {
+            makeRiver(grid[0][Tuning.MAP_WIDTH / 2]);
+        } else {
+            makeIceRiver(grid[0][Tuning.MAP_WIDTH / 2]);
+        }
+        if (Math.random() > 0.2) {
+            makeRiver(grid[0][3 * (Tuning.MAP_WIDTH / 4)]);
+        } else {
+            makeIceRiver(grid[0][3 * (Tuning.MAP_WIDTH / 4)]);
+        }
 
+        //CLEANUP ------------------------
         Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
         voidToGrass();
         Logger.logCodeMessage("Made map.");
@@ -83,7 +98,6 @@ public class SneakGame {
 
     /**
      * Creates a river down from the top row. Intersperces random bridges.
-     * Note: Does not always make valid passable rivers.
      *
      * @param t Origin tile, should be in row 0.
      */
@@ -132,6 +146,48 @@ public class SneakGame {
                 convertCoords(x, y).setType(Tile.WOOD);
                 bridges++;
             }
+        }
+    }
+
+    /**
+     * Creates a river down from the top row, out of ice.
+     *
+     * @param t Origin tile, should be in row 0.
+     */
+    private void makeIceRiver(Tile t) {
+        //todo sometimes generates impassible rivers
+        int x = t.getX();
+        int y = t.getY();
+        if (y != 0) {
+            System.err.println("Tried to make river in non-sensical position.");
+            return;
+        }
+
+        convertCoords(x, y).setType(Tile.ICE);
+        for (int i = 0; i < Tuning.MAP_HEIGHT - 1; i++) {
+            y += Tuning.TILE_SIZE;
+            //System.out.println("Y:" + y);
+            //System.out.println("X" + x);
+
+            //keep generating river
+            if (Math.random() > 0.2) { //go down
+                convertCoords(x, y).setType(Tile.ICE);
+            } else { //go sideways
+                if (Math.random() > 0.5) {
+                    convertCoords(x, y).setType(Tile.ICE);
+                    if (x + Tuning.TILE_SIZE < Tuning.MAP_WIDTH * Tuning.TILE_SIZE) {
+                        x += Tuning.TILE_SIZE;
+                    }
+                    convertCoords(x, y).setType(Tile.ICE);
+                } else {
+                    convertCoords(x, y).setType(Tile.ICE);
+                    if (x - Tuning.TILE_SIZE > 0) {
+                        x -= Tuning.TILE_SIZE;
+                    }
+                    convertCoords(x, y).setType(Tile.ICE);
+                }
+            }
+
         }
     }
 
