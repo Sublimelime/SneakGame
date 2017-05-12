@@ -235,20 +235,52 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         int tY = t.getY();
         int tX = t.getX();
         Tile playerTile = game.getPlayer().getCurrentTile();
-        int yDiff = Math.abs(tY - playerTile.getY()), xDiff = Math.abs(tX - playerTile.getX());
+        int yDiff = tY - playerTile.getY(), xDiff = tX - playerTile.getX();
 
         //if move is even inside the map
         if ((tX >= 0 && tX <= (Tuning.TILE_SIZE * Tuning.MAP_WIDTH)) && (tY >= 0 && tY <= (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT))) {
             //if the x is within range of the tile
-            if (xDiff <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
+            if (Math.abs(xDiff) <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
                 if (tY == playerTile.getY()) { //if y values match
-                    return true;
+                    if (xDiff < 0) {
+                        for (int x = playerTile.getX(); x >= tX; x-=16) {
+                            Tile test = game.convertCoords(x,tY);
+                            if (!test.isPassable()) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    } else if (xDiff > 0) {
+                        for (int x = playerTile.getX(); x <= tX; x+=16) {
+                            Tile test = game.convertCoords(x,tY);
+                            if (!test.isPassable()) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
                 }
             }
             //if the y is within range of the tile
-            if (yDiff <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
+            if (Math.abs(yDiff) <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
                 if (tX == playerTile.getX()) { //if x values match
-                    return true;
+                    if (yDiff < 0) {
+                        for (int y = playerTile.getY(); y >= tY; y-=16) {
+                            Tile test = game.convertCoords(tX,y);
+                            if (!test.isPassable()) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    } else if (yDiff > 0) {
+                        for (int y = playerTile.getY(); y <= tY; y+=16) {
+                            Tile test = game.convertCoords(tX,y);
+                            if (!test.isPassable()) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
                 }
             }
         }
