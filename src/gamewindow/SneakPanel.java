@@ -1,5 +1,6 @@
 package gamewindow;
 
+import entities.Player;
 import gamelogic.SneakGame;
 import gamelogic.Tuning;
 import java.awt.*;
@@ -73,7 +74,21 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             drawGuidelines(bg, true);
         }
 
-        bg.drawImage(playerRight, game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), null);
+        switch (game.getPlayer().getOrientation()) {
+            case 0:
+                bg.drawImage(playerUp, game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), null);
+                break;
+            case 1:
+                bg.drawImage(playerLeft, game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), null);
+                break;
+            case 2:
+                bg.drawImage(playerDown, game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), null);
+                break;
+            case 3:
+                bg.drawImage(playerRight, game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), null);
+                break;
+
+        }
         drawValidMoves(bg, game.getPlayer().getCurrentTile());
 
         g.drawImage(buffer, 0, 0, null);
@@ -228,7 +243,6 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      * @return True if the player can move to t.
      */
     public boolean isValidMove(Tile t) {
-        //todo fix issue with being able to jump over impassible tiles
         if (!t.isPassable()) { //don't even check if dest isn't passable
             return false;
         }
@@ -316,6 +330,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         Tile move = game.convertCoords(x, y);
 
         if (isValidMove(move)) { //if the player can move, move them
+            if (move.getX() > game.getPlayer().getX()) {
+                game.getPlayer().setOrientation(Player.RIGHT);
+            }
+
             game.getPlayer().setX(x);
             game.getPlayer().setY(y);
         }
