@@ -1,6 +1,7 @@
-package gamelogic;
+package entities;
 
-import tiles.Tile;
+import gamelogic.SneakGame;
+import gamelogic.Tile;
 
 /**
  * Abstract entity.

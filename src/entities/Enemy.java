@@ -1,4 +1,6 @@
-package gamelogic;
+package entities;
+
+import gamelogic.SneakGame;
 
 /**
  * A class for the basic enemy.

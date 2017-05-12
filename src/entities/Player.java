@@ -1,4 +1,6 @@
-package gamelogic;
+package entities;
+
+import gamelogic.SneakGame;
 
 /**
  * Holds the information about the player,

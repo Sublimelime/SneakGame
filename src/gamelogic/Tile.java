@@ -1,4 +1,4 @@
-package tiles;
+package gamelogic;
 
 /**
  * Abstract class tile, all tiles extend this.

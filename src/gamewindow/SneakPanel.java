@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import libraries.ImageTools;
 import libraries.Logger;
-import tiles.Tile;
+import gamelogic.Tile;
 
 /**
  * The panel of the game.

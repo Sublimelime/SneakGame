@@ -1,7 +1,7 @@
 package gamelogic;
 
+import entities.Player;
 import libraries.Logger;
-import tiles.Tile;
 
 /**
  * Game class that holds the game.
