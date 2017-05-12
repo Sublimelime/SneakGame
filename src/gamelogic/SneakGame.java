@@ -43,8 +43,12 @@ public class SneakGame {
         voidToGrass();
         Logger.logCodeMessage("Made map.");
 
-        //todo place player in starting pos
-        player = new Player((int) (Math.random() * 100), (int) (Math.random() * 100), this);
+        int rX, rY;
+        do {
+            rX = (int) (Math.random() * 100);
+            rY = (int) (Math.random() * (Tuning.TILE_SIZE*Tuning.MAP_HEIGHT));
+        } while (!(convertCoords(rX,rY).isPassable()));
+        player = new Player(rX,rY,this);
         Logger.logCodeMessage("Made new player at: " + player.getX() + ", " + player.getY());
     }
 
