@@ -9,7 +9,7 @@ package gamelogic;
  *
  * Part of project: SneakGame
  */
-public class Enemy extends Player {
+public class Enemy extends Entity {
 
     public Enemy(int x, int y, SneakGame game) {
         super(x, y, game);
