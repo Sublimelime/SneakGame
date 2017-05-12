@@ -1,15 +1,13 @@
 package gamewindow;
 
 import entities.Player;
-import gamelogic.SneakGame;
-import gamelogic.Tuning;
+import gamelogic.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 import libraries.ImageTools;
 import libraries.Logger;
-import gamelogic.Tile;
 
 /**
  * The panel of the game.
@@ -236,71 +234,6 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         }
     }
 
-    /**
-     * Checks if a move is valid based on the player's location.
-     *
-     * @param t Tile attempted to move to.
-     * @return True if the player can move to t.
-     */
-    public boolean isValidMove(Tile t) {
-        if (!t.isPassable()) { //don't even check if dest isn't passable
-            return false;
-        }
-        int tY = t.getY();
-        int tX = t.getX();
-        Tile playerTile = game.getPlayer().getCurrentTile();
-        int yDiff = tY - playerTile.getY(), xDiff = tX - playerTile.getX();
-
-        //if move is even inside the map
-        if ((tX >= 0 && tX <= (Tuning.TILE_SIZE * Tuning.MAP_WIDTH)) && (tY >= 0 && tY <= (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT))) {
-            //if the x is within range of the tile
-            if (Math.abs(xDiff) <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
-                if (tY == playerTile.getY()) { //if y values match
-                    if (xDiff < 0) {
-                        for (int x = playerTile.getX(); x >= tX; x-=16) {
-                            Tile test = game.convertCoords(x,tY);
-                            if (!test.isPassable()) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    } else if (xDiff > 0) {
-                        for (int x = playerTile.getX(); x <= tX; x+=16) {
-                            Tile test = game.convertCoords(x,tY);
-                            if (!test.isPassable()) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    }
-                }
-            }
-            //if the y is within range of the tile
-            if (Math.abs(yDiff) <= (playerTile.getMovementRange() * Tuning.TILE_SIZE)) {
-                if (tX == playerTile.getX()) { //if x values match
-                    if (yDiff < 0) {
-                        for (int y = playerTile.getY(); y >= tY; y-=16) {
-                            Tile test = game.convertCoords(tX,y);
-                            if (!test.isPassable()) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    } else if (yDiff > 0) {
-                        for (int y = playerTile.getY(); y <= tY; y+=16) {
-                            Tile test = game.convertCoords(tX,y);
-                            if (!test.isPassable()) {
-                                return false;
-                            }
-                        }
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
     public void run() {
         //noinspection InfiniteLoopStatement
         while (true) {
@@ -329,7 +262,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         int y = e.getY();
         Tile move = game.convertCoords(x, y);
 
-        if (isValidMove(move)) { //if the player can move, move them
+        if (game.getPlayer().isValidMove(move)) { //if the player can move, move them
             if (move.getX() > game.getPlayer().getX()) {
                 game.getPlayer().setOrientation(Player.RIGHT);
             }

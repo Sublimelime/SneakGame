@@ -1,7 +1,6 @@
 package entities;
 
-import gamelogic.SneakGame;
-import gamelogic.Tile;
+import gamelogic.*;
 
 /**
  * Abstract entity.
@@ -49,5 +48,69 @@ public abstract class Entity {
 
     public void setCurrentTile(Tile currentTile) {
         this.currentTile = currentTile;
+    }
+
+    /**
+     * Checks if a move is valid based on the entity's location.
+     *
+     * @param t Tile attempted to move to.
+     * @return True if the entity can move to t.
+     */
+    public boolean isValidMove(Tile t) {
+        if (!t.isPassable()) { //don't even check if dest isn't passable
+            return false;
+        }
+        int tY = t.getY();
+        int tX = t.getX();
+        int yDiff = tY - currentTile.getY(), xDiff = tX - currentTile.getX();
+
+        //if move is even inside the map
+        if ((tX >= 0 && tX <= (Tuning.TILE_SIZE * Tuning.MAP_WIDTH)) && (tY >= 0 && tY <= (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT))) {
+            //if the x is within range of the tile
+            if (Math.abs(xDiff) <= (currentTile.getMovementRange() * Tuning.TILE_SIZE)) {
+                if (tY == currentTile.getY()) { //if y values match
+                    if (xDiff < 0) { //if going left
+                        for (int x = currentTile.getX(); x >= tX; x -= Tuning.TILE_SIZE) {
+                            Tile test = game.convertCoords(x, tY);
+                            if (!test.isPassable()) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    } else if (xDiff > 0) { //if going right
+                        for (int x = currentTile.getX(); x <= tX; x += Tuning.TILE_SIZE) {
+                            Tile test = game.convertCoords(x, tY);
+                            if (!test.isPassable()) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+            //if the y is within range of the tile
+            if (Math.abs(yDiff) <= (currentTile.getMovementRange() * Tuning.TILE_SIZE)) {
+                if (tX == currentTile.getX()) { //if x values match
+                    if (yDiff < 0) { //if going up
+                        for (int y = currentTile.getY(); y >= tY; y -= Tuning.TILE_SIZE) {
+                            Tile test = game.convertCoords(tX, y);
+                            if (!test.isPassable()) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    } else if (yDiff > 0) { //if going down
+                        for (int y = currentTile.getY(); y <= tY; y += Tuning.TILE_SIZE) {
+                            Tile test = game.convertCoords(tX, y);
+                            if (!test.isPassable()) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }
