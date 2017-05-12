@@ -212,11 +212,14 @@ public class SneakGame {
         int tX = t.getX();
         int tY = t.getY();
 
-        if (vertical) {
+        int tileX = (t.getX() * Tuning.TILE_SIZE);
+        int tileY = (t.getY() * Tuning.TILE_SIZE);
+
+        if (vertical && tileY > 1 && tileY < Tuning.MAP_HEIGHT - 1) {
             t.setType(Tile.STONE_BRICKS);
             convertCoords(tX, tY - Tuning.TILE_SIZE).setType(Tile.STONE_BRICKS);
             convertCoords(tX, tY + Tuning.TILE_SIZE).setType(Tile.STONE_BRICKS);
-        } else {
+        } else if (!vertical && tileX > 1 && tileX < Tuning.MAP_WIDTH - 1) {
             t.setType(Tile.STONE_BRICKS);
             convertCoords(tX - Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
             convertCoords(tX + Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
