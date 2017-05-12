@@ -52,6 +52,13 @@ public class SneakGame {
             makeIceRiver(grid[0][3 * (Tuning.MAP_WIDTH / 4)]);
         }
 
+        //SMALL WALLS ------------------
+        for (int i = 0; i < 7; i++) {
+            int row = (int) (Math.random() * Tuning.MAP_HEIGHT);
+            int column = (int) (Math.random() * Tuning.MAP_WIDTH);
+            makeSmallWall(grid[row][column], (Math.random() > 0.5));
+        }
+
         //CLEANUP ------------------------
         Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
         voidToGrass();
@@ -188,6 +195,27 @@ public class SneakGame {
                 }
             }
 
+        }
+    }
+
+    /**
+     * Generates a small 3 tile long wall.
+     *
+     * @param t Middle tile of the wall.
+     * @param vertical True if the wall should be vertical.
+     */
+    private void makeSmallWall(Tile t, boolean vertical) {
+        int tX = t.getX();
+        int tY = t.getY();
+
+        if (vertical) {
+            t.setType(Tile.STONE_BRICKS);
+            convertCoords(tX, tY - Tuning.TILE_SIZE).setType(Tile.STONE_BRICKS);
+            convertCoords(tX, tY + Tuning.TILE_SIZE).setType(Tile.STONE_BRICKS);
+        } else {
+            t.setType(Tile.STONE_BRICKS);
+            convertCoords(tX - Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
+            convertCoords(tX + Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
         }
     }
 
