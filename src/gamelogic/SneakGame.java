@@ -29,16 +29,15 @@ public class SneakGame {
         Logger.logCodeMessage("Init all tiles.");
         //todo extensive code to generate pretty map.
 
-        for (int i = 0; i < 5; i++) {
-            makeSandPit(grid[(int) (Math.random() * 40)][(int) (Math.random() * 30)]);
-            makeMudPit(grid[(int) (Math.random() * 40)][(int) (Math.random() * 30)]);
+        for (int i = 0; i < 8; i++) {
+            makeSandPit(grid[(int) (Math.random() * Tuning.MAP_HEIGHT)][(int) (Math.random() * Tuning.MAP_WIDTH)]);
+            makeMudPit(grid[(int) (Math.random() * Tuning.MAP_HEIGHT)][(int) (Math.random() * Tuning.MAP_WIDTH)]);
         }
 
         makeRiver(grid[0][Tuning.MAP_WIDTH / 4]);
         makeRiver(grid[0][Tuning.MAP_WIDTH / 2]); //todo figure out placements later
         makeRiver(grid[0][3 * (Tuning.MAP_WIDTH / 4)]);
 
-        //makeRiver(grid[0][10]);
         Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
         voidToGrass();
         Logger.logCodeMessage("Made map.");
