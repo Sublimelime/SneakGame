@@ -257,11 +257,11 @@ public class SneakGame {
         }
 
         convertCoords(tX, tY).setType(Tile.STONE_BRICKS);
-        for (int i = tX; i < ((internalSize + 1) * Tuning.TILE_SIZE); i += Tuning.TILE_SIZE) { //right from tile
+        for (int i = tX; i < ((internalSize + 1) * Tuning.TILE_SIZE) + tX; i += Tuning.TILE_SIZE) { //right from tile
             convertCoords(i, tY).setType(Tile.STONE_BRICKS);
         }
 
-        for (int i = tY; i < ((internalSize + 1) * Tuning.TILE_SIZE); i += Tuning.TILE_SIZE) { //down from tile
+        for (int i = tY; i < ((internalSize + 1) * Tuning.TILE_SIZE) + tY; i += Tuning.TILE_SIZE) { //down from tile
             convertCoords(tX, i).setType(Tile.STONE_BRICKS);
         }
 
