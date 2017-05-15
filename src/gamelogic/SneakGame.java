@@ -56,10 +56,21 @@ public class SneakGame {
         for (int i = 0; i < 7; i++) {
             int row = (int) (Math.random() * Tuning.MAP_HEIGHT);
             int column = (int) (Math.random() * Tuning.MAP_WIDTH);
-            makeSmallWall(grid[row][column], (Math.random() > 0.5));
+            if (row > Tuning.MAP_HEIGHT - 2 || column > Tuning.MAP_WIDTH - 2 || row < 2 || column < 2) {
+                i--;
+            } else {
+                makeSmallWall(grid[row][column], (Math.random() > 0.5));
+            }
         }
 
-        makeSmallWall(grid[10][20], true);
+        //HOUSES ------------------
+//        for (int i = 0; i < 3; i++) {
+//            int row = (int) (Math.random() * Tuning.MAP_HEIGHT); //avoid the bottom of the screen
+//            int column = (int) (Math.random() * Tuning.MAP_WIDTH); //avoid the end of the screen
+//            makeHouse(grid[row][column], 3);
+//        }
+        makeHouse(grid[10][20], 4);
+
         //CLEANUP ------------------------
         Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
         voidToGrass();
@@ -212,16 +223,48 @@ public class SneakGame {
     private void makeSmallWall(Tile t, boolean vertical) {
         int tX = t.getX();
         int tY = t.getY();
-
-        if (vertical) {
-            t.setType(Tile.STONE_BRICKS);
-            convertCoords(tX, tY - Tuning.TILE_SIZE).setType(Tile.STONE_BRICKS);
-            convertCoords(tX, tY + Tuning.TILE_SIZE).setType(Tile.STONE_BRICKS);
-        } else {
-            t.setType(Tile.STONE_BRICKS);
-            convertCoords(tX - Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
-            convertCoords(tX + Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
+        try {
+            if (vertical) {
+                t.setType(Tile.STONE_BRICKS);
+                convertCoords(tX, tY - Tuning.TILE_SIZE).setType(Tile.STONE_BRICKS);
+                convertCoords(tX, tY + Tuning.TILE_SIZE).setType(Tile.STONE_BRICKS);
+            } else {
+                t.setType(Tile.STONE_BRICKS);
+                convertCoords(tX - Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
+                convertCoords(tX + Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
+            }
+        } catch (NullPointerException e) {
+            if (Tuning.DEBUG) {
+                e.printStackTrace();
+            }
         }
+    }
+
+    /**
+     * Creates a house, with the tile provided at the upper left corner.
+     *
+     * @param t Upper left corner of the house, will be a wall
+     * @param internalSize Size to make the internals of the house. Will be ?x?.
+     */
+    private void makeHouse(Tile t, int internalSize) {
+        int tX = t.getX();
+        int tY = t.getY();
+        if (tX + ((internalSize + 1) * Tuning.TILE_SIZE) > (Tuning.MAP_WIDTH * Tuning.TILE_SIZE)) {
+            if (Tuning.DEBUG) {
+                System.out.println("Failed to place house, location too far right.");
+                return;
+            }
+        }
+
+        convertCoords(tX, tY).setType(Tile.STONE_BRICKS);
+        for (int i = tX; i < ((internalSize + 1) * Tuning.TILE_SIZE); i += Tuning.TILE_SIZE) { //right from tile
+            convertCoords(i, tY).setType(Tile.STONE_BRICKS);
+        }
+
+        for (int i = tY; i < ((internalSize + 1) * Tuning.TILE_SIZE); i += Tuning.TILE_SIZE) { //down from tile
+            convertCoords(tX, i).setType(Tile.STONE_BRICKS);
+        }
+
     }
 
     /**
