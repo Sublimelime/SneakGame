@@ -101,31 +101,31 @@ public class Tile {
         String typeLetter;
         switch (type) {
             case 0: //grass
-                typeLetter = "G";
+                typeLetter = "Gra";
                 break;
             case 1: //ice
-                typeLetter = "I";
+                typeLetter = "Ice";
                 break;
             case 2: //mud
-                typeLetter = "M";
+                typeLetter = "Mud";
                 break;
             case 3: //sand
-                typeLetter = "Sa";
+                typeLetter = "San";
                 break;
             case 4: //stone
-                typeLetter = "St";
+                typeLetter = "Sto";
                 break;
             case 5: //stone bricks
                 typeLetter = "StB";
                 break;
             case 6: //water
-                typeLetter = "Wa";
+                typeLetter = "Wat";
                 break;
             case 7: //wood
-                typeLetter = "Wo";
+                typeLetter = "Woo";
                 break;
             case 8: //void
-                typeLetter = "V";
+                typeLetter = "Voi";
                 break;
             default:
                 typeLetter = "Err";

@@ -59,6 +59,7 @@ public class SneakGame {
             makeSmallWall(grid[row][column], (Math.random() > 0.5));
         }
 
+        makeSmallWall(grid[10][20], true);
         //CLEANUP ------------------------
         Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
         voidToGrass();
@@ -209,10 +210,6 @@ public class SneakGame {
      * @param vertical True if the wall should be vertical.
      */
     private void makeSmallWall(Tile t, boolean vertical) {
-        if (!t.isPassable()) { //don't make wall on an impassible tile
-            return;
-        }
-
         int tX = t.getX();
         int tY = t.getY();
 
@@ -264,6 +261,15 @@ public class SneakGame {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void printGrid() {
+        for (Tile[] x : grid) {
+            for (Tile y : x) {
+                System.out.print(y);
+            }
+            System.out.println();
+        }
     }
 
 }
