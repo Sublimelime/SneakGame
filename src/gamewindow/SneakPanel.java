@@ -115,7 +115,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             int y = currentTile.getY() + (i * Tuning.TILE_SIZE);
             int x = currentTile.getX();
             //stop drawing out if we hit an impassible tile
-            if (y > Tuning.SCREEN_HEIGHT || x > Tuning.SCREEN_WIDTH || y < 0 || x < 0 || !game.convertCoords(x, y).isPassable()) {
+            if (y > Tuning.SCREEN_HEIGHT || x > Tuning.SCREEN_WIDTH || y < 0 || x < 0 || game.convertCoords(x, y) == null || !game.convertCoords(x, y).isPassable()) {
                 break;
             }
             g.fillRect(x, y, Tuning.TILE_SIZE, Tuning.TILE_SIZE);

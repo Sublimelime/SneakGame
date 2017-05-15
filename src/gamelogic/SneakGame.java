@@ -67,9 +67,9 @@ public class SneakGame {
         int rX, rY;
         do {
             rX = (int) (Math.random() * 100);
-            rY = (int) (Math.random() * (Tuning.TILE_SIZE*Tuning.MAP_HEIGHT));
-        } while (!(convertCoords(rX,rY).isPassable()));
-        player = new Player(rX,rY,this);
+            rY = (int) (Math.random() * (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT));
+        } while (!(convertCoords(rX, rY).isPassable()));
+        player = new Player(rX, rY, this);
         Logger.logCodeMessage("Made new player at: " + player.getX() + ", " + player.getY());
     }
 
@@ -209,6 +209,10 @@ public class SneakGame {
      * @param vertical True if the wall should be vertical.
      */
     private void makeSmallWall(Tile t, boolean vertical) {
+        if (!t.isPassable()) { //don't make wall on an impassible tile
+            return;
+        }
+
         int tX = t.getX();
         int tY = t.getY();
 
