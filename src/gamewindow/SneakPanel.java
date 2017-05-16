@@ -1,5 +1,6 @@
 package gamewindow;
 
+import entities.Enemy;
 import entities.Player;
 import gamelogic.*;
 import java.awt.*;
@@ -79,6 +80,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             drawGuidelines(bg, true);
         }
 
+        //draw player
         switch (game.getPlayer().getOrientation()) {
             case 0:
                 bg.drawImage(playerUp, game.getPlayer().getCurrentTile().getX(), game.getPlayer().getCurrentTile().getY(), null);
@@ -95,6 +97,8 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
         }
         drawValidMoves(bg, game.getPlayer().getCurrentTile(), Tuning.ENEMY_MOVE_COLOR);
+        //Draw enemies
+        drawEnemies(bg, true);
 
         g.drawImage(buffer, 0, 0, null);
     }
@@ -238,6 +242,25 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         for (int i = 5; i < Tuning.SCREEN_WIDTH; i += Tuning.TILE_SIZE) {
             g.drawString("" + counter, i, 8);
             counter++;
+        }
+    }
+
+    private void drawEnemies(Graphics g, final boolean alsoDrawPaths) {
+        for (Enemy enemy : game.getEnemies()) {
+            switch (enemy.getType()) {
+                case 0: //gooblin
+                    g.drawImage(gooblin, enemy.getCurrentTile().getX(), enemy.getCurrentTile().getY(), null);
+                    break;
+                case 1: //Trool
+                    g.drawImage(trool, enemy.getCurrentTile().getX(), enemy.getCurrentTile().getY(), null);
+                    break;
+                case 2: //weesp
+                    g.drawImage(weesp, enemy.getCurrentTile().getX(), enemy.getCurrentTile().getY(), null);
+                    break;
+            }
+            if (alsoDrawPaths) {
+                drawValidMoves(g, enemy.getCurrentTile(), Tuning.ENEMY_MOVE_COLOR);
+            }
         }
     }
 

@@ -13,8 +13,20 @@ import gamelogic.SneakGame;
  */
 public class Enemy extends Entity {
 
-    public Enemy(int x, int y, SneakGame game) {
+    int type;
+    public static final int GOOBLIN = 0, TROOL = 1, WEESP = 2;
+
+    public Enemy(int x, int y, SneakGame game, int type) {
         super(x, y, game);
+        this.type = type;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
 }

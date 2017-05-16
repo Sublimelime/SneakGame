@@ -1,6 +1,8 @@
 package gamelogic;
 
+import entities.Enemy;
 import entities.Player;
+import java.util.ArrayList;
 import libraries.Logger;
 
 /**
@@ -16,6 +18,7 @@ public class SneakGame {
 
     private Tile[][] grid;
     private final Player player;
+    private ArrayList<Enemy> enemies;
 
     public SneakGame() {
         grid = new Tile[Tuning.MAP_HEIGHT][Tuning.MAP_WIDTH];
@@ -35,6 +38,8 @@ public class SneakGame {
             makeMudPit(grid[(int) (Math.random() * Tuning.MAP_HEIGHT)][(int) (Math.random() * Tuning.MAP_WIDTH)]);
         }
 
+        Logger.logOtherMessage("World Gen", "Made sand pits.");
+
         //RIVERS -------------------------------
         if (Math.random() > 0.2) {
             makeRiver(grid[0][Tuning.MAP_WIDTH / 4]);
@@ -51,6 +56,7 @@ public class SneakGame {
         } else {
             makeIceRiver(grid[0][3 * (Tuning.MAP_WIDTH / 4)]);
         }
+        Logger.logOtherMessage("World Gen", "Made rivers.");
 
         //SMALL WALLS ------------------
         for (int i = 0; i < 7; i++) {
@@ -62,7 +68,7 @@ public class SneakGame {
                 makeSmallWall(grid[row][column], (Math.random() > 0.5));
             }
         }
-
+        Logger.logOtherMessage("World Gen", "Made small walls.");
         //HOUSES ------------------
 //        for (int i = 0; i < 3; i++) {
 //            int row = (int) (Math.random() * Tuning.MAP_HEIGHT); //avoid the bottom of the screen
@@ -71,11 +77,13 @@ public class SneakGame {
 //        }
         makeHouse(grid[10][20], 3);
 
+        Logger.logOtherMessage("World Gen", "Made houses.");
         //CLEANUP ------------------------
         Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
         voidToGrass();
         Logger.logCodeMessage("Made map.");
 
+        //make player
         int rX, rY;
         do {
             rX = (int) (Math.random() * 100);
@@ -83,6 +91,9 @@ public class SneakGame {
         } while (!(convertCoords(rX, rY).isPassable()));
         player = new Player(rX, rY, this);
         Logger.logCodeMessage("Made new player at: " + player.getX() + ", " + player.getY());
+
+        //make enemies
+        enemies = new ArrayList<>();
     }
 
     /**
@@ -340,6 +351,10 @@ public class SneakGame {
             }
             System.out.println();
         }
+    }
+
+    public ArrayList<Enemy> getEnemies() {
+        return enemies;
     }
 
 }

@@ -13,7 +13,6 @@ import java.awt.Color;
  */
 public class Tuning {
 
-    //todo placeholder size
     //Size of the screen
     public final static int SCREEN_WIDTH = 1920; //640 for normal, 1920 to show whole map
     public final static int SCREEN_HEIGHT = 640;
@@ -28,6 +27,10 @@ public class Tuning {
     //set to true if debugging
     public final static boolean DEBUG = false, SHOULD_PRINT_ERRORS = false;
 
+    //colors
     public static final Color PLAYER_MOVE_COLOR = new Color(255, 255, 255, 100);
     public static final Color ENEMY_MOVE_COLOR = new Color(0, 0, 0, 80);
+
+    //enemy count
+    public static final int ENEMY_COUNT = 10;
 }
