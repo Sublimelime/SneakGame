@@ -26,7 +26,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     //entities
     BufferedImage playerRight, playerUp, playerDown, playerLeft;
 
-    BufferedImage gooblin;
+    BufferedImage gooblin, trool, weesp;
 
     private SneakGame game;
 
@@ -55,7 +55,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         playerUp = ImageTools.rotate(playerRight, -90);
         playerLeft = ImageTools.rotate(playerRight, 180);
 
+        //enemies
         gooblin = ImageTools.load("resources/gooblin.png");
+        trool = ImageTools.load("resources/trool.png");
+        weesp = ImageTools.load("resources/weesp.png");
 
         game = new SneakGame();
 
@@ -92,8 +95,6 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
         }
         drawValidMoves(bg, game.getPlayer().getCurrentTile(), Tuning.ENEMY_MOVE_COLOR);
-
-        bg.drawImage(gooblin, 96, 96, null);
 
         g.drawImage(buffer, 0, 0, null);
     }
