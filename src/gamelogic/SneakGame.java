@@ -69,7 +69,7 @@ public class SneakGame {
 //            int column = (int) (Math.random() * Tuning.MAP_WIDTH); //avoid the end of the screen
 //            makeHouse(grid[row][column], 3);
 //        }
-        makeHouse(grid[10][20], 4);
+        makeHouse(grid[10][20], 3);
 
         //CLEANUP ------------------------
         Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
@@ -249,20 +249,47 @@ public class SneakGame {
     private void makeHouse(Tile t, int internalSize) {
         int tX = t.getX();
         int tY = t.getY();
-        if (tX + ((internalSize + 1) * Tuning.TILE_SIZE) > (Tuning.MAP_WIDTH * Tuning.TILE_SIZE)) {
-            if (Tuning.DEBUG) {
-                System.out.println("Failed to place house, location too far right.");
-                return;
-            }
-        }
 
+        //right from tile
         convertCoords(tX, tY).setType(Tile.STONE_BRICKS);
-        for (int i = tX; i < ((internalSize + 1) * Tuning.TILE_SIZE) + tX; i += Tuning.TILE_SIZE) { //right from tile
+        for (int i = tX; i < ((internalSize + 1) * Tuning.TILE_SIZE) + tX; i += Tuning.TILE_SIZE) {
             convertCoords(i, tY).setType(Tile.STONE_BRICKS);
         }
 
-        for (int i = tY; i < ((internalSize + 1) * Tuning.TILE_SIZE) + tY; i += Tuning.TILE_SIZE) { //down from tile
+        //down from tile
+        for (int i = tY; i < ((internalSize + 1) * Tuning.TILE_SIZE) + tY; i += Tuning.TILE_SIZE) {
             convertCoords(tX, i).setType(Tile.STONE_BRICKS);
+        }
+
+        //bottom line
+        for (int i = tX; i < ((internalSize + 2) * Tuning.TILE_SIZE) + tX; i += Tuning.TILE_SIZE) {
+            convertCoords(i, tY + ((internalSize + 1) * Tuning.TILE_SIZE)).setType(Tile.STONE_BRICKS);
+        }
+
+        //right wall
+        for (int i = tY; i < ((internalSize + 1) * Tuning.TILE_SIZE) + tY; i += Tuning.TILE_SIZE) {
+            convertCoords(tX + ((internalSize + 1) * Tuning.TILE_SIZE), i).setType(Tile.STONE_BRICKS);
+        }
+        //floor
+        for (int x = tX + Tuning.TILE_SIZE; x < tX + (Tuning.TILE_SIZE * (internalSize + 1)); x += Tuning.TILE_SIZE) {
+            for (int y = tY + Tuning.TILE_SIZE; y < tY + (Tuning.TILE_SIZE * (internalSize + 1)); y += Tuning.TILE_SIZE) {
+                convertCoords(x, y).setType(Tile.WOOD);
+            }
+        }
+        //create a door
+        switch ((int) (Math.random() * 3)) {
+            case 0: //top
+                convertCoords(tX + ((internalSize * Tuning.TILE_SIZE) / 2), tY).setType(Tile.WOOD);
+                break;
+            case 1: //right
+                convertCoords(tX + ((internalSize + 1) * Tuning.TILE_SIZE), tY + ((internalSize * Tuning.TILE_SIZE) / 2)).setType(Tile.WOOD);
+                break;
+            case 2: //down
+                convertCoords(tX + ((internalSize * Tuning.TILE_SIZE) / 2), tY + ((internalSize + 1) * Tuning.TILE_SIZE)).setType(Tile.WOOD);
+                break;
+            case 3: //left
+                convertCoords(tX, tY + ((internalSize * Tuning.TILE_SIZE) / 2)).setType(Tile.WOOD);
+                break;
         }
 
     }
