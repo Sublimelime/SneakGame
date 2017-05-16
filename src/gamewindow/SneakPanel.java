@@ -91,9 +91,9 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 break;
 
         }
-        drawValidMoves(bg, game.getPlayer().getCurrentTile());
+        drawValidMoves(bg, game.getPlayer().getCurrentTile(), Tuning.ENEMY_MOVE_COLOR);
 
-        bg.drawImage(gooblin,96,96,null);
+        bg.drawImage(gooblin, 96, 96, null);
 
         g.drawImage(buffer, 0, 0, null);
     }
@@ -104,8 +104,8 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      * @param g Graphics to draw to.
      * @param currentTile Current tile of reference.
      */
-    private void drawValidMoves(Graphics g, Tile currentTile) {
-        g.setColor(new Color(255, 255, 255, 100));
+    private void drawValidMoves(Graphics g, Tile currentTile, Color color) {
+        g.setColor(color);
         //up from tile
         for (int i = 1; i <= currentTile.getMovementRange(); i++) {
             int y = currentTile.getY() - (i * Tuning.TILE_SIZE);

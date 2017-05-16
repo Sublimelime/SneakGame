@@ -1,5 +1,7 @@
 package gamelogic;
 
+import java.awt.Color;
+
 /**
  * A simple class that holds public static variables to use to tune program values
  *
@@ -25,4 +27,7 @@ public class Tuning {
 
     //set to true if debugging
     public final static boolean DEBUG = false, SHOULD_PRINT_ERRORS = false;
+
+    public static final Color PLAYER_MOVE_COLOR = new Color(255, 255, 255, 100);
+    public static final Color ENEMY_MOVE_COLOR = new Color(0, 0, 0, 80);
 }
