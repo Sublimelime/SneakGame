@@ -166,7 +166,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                     continue;
                 }
                 switch (currentTile.getType()) { //draw based on type
-                    case 0: //grass
+                    case Tile.GRASS:
                         switch (currentTile.getGrassType()) {
                             case 0:
                                 g.drawImage(grass, x, y, null);
@@ -184,28 +184,28 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                                 break;
                         }
                         break;
-                    case 1: //ice
+                    case Tile.ICE:
                         g.drawImage(ice, x, y, null);
                         break;
-                    case 2: //mud
+                    case Tile.MUD:
                         g.drawImage(mud, x, y, null);
                         break;
-                    case 3: //sand
+                    case Tile.SAND:
                         g.drawImage(sand, x, y, null);
                         break;
-                    case 4: //stone
+                    case Tile.STONE:
                         g.drawImage(stone, x, y, null);
                         break;
-                    case 5: //stone bricks
+                    case Tile.STONE_BRICKS:
                         g.drawImage(stoneBricks, x, y, null);
                         break;
-                    case 6: //water
+                    case Tile.WATER:
                         g.drawImage(water, x, y, null);
                         break;
-                    case 7: //wood
+                    case Tile.WOOD:
                         g.drawImage(wood, x, y, null);
                         break;
-                    case 8: //void
+                    case Tile.VOID:
                         g.drawImage(voidTile, x, y, null);
                         break;
                     default:
@@ -248,13 +248,13 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     private void drawEnemies(Graphics g, final boolean alsoDrawPaths) {
         for (Enemy enemy : game.getEnemies()) {
             switch (enemy.getType()) {
-                case 0: //gooblin
+                case Enemy.GOOBLIN:
                     g.drawImage(gooblin, enemy.getCurrentTile().getX(), enemy.getCurrentTile().getY(), null);
                     break;
-                case 1: //Trool
+                case Enemy.TROOL:
                     g.drawImage(trool, enemy.getCurrentTile().getX(), enemy.getCurrentTile().getY(), null);
                     break;
-                case 2: //weesp
+                case Enemy.WEESP:
                     g.drawImage(weesp, enemy.getCurrentTile().getX(), enemy.getCurrentTile().getY(), null);
                     break;
             }
