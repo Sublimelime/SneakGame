@@ -94,6 +94,16 @@ public class SneakGame {
 
         //make enemies
         enemies = new ArrayList<>();
+
+        int counter = 0;
+        while (counter < Tuning.ENEMY_COUNT) {
+            int x = (int) (Math.random() * (Tuning.MAP_WIDTH * Tuning.TILE_SIZE));
+            int y = (int) (Math.random() * (Tuning.MAP_HEIGHT * Tuning.TILE_SIZE));
+            if (convertCoords(x, y).isPassable()) {
+                enemies.add(new Enemy(x, y, this, (int) (Math.random() * 3)));
+                counter++;
+            }
+        }
     }
 
     /**
