@@ -26,7 +26,7 @@ public class SneakGame {
         //init all tiles
         for (int x = 0; x < grid.length; x++) {
             for (int y = 0; y < grid[x].length; y++) {
-                grid[x][y] = new Tile(y * Tuning.TILE_SIZE, x * Tuning.TILE_SIZE, Tile.VOID);
+                grid[x][y] = new Tile(y, x, Tile.VOID);
             }
         }
         Logger.logCodeMessage("Init all tiles.");
@@ -87,8 +87,8 @@ public class SneakGame {
         int rX, rY;
         do {
             rX = (int) (Math.random() * 100);
-            rY = (int) (Math.random() * (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT));
-        } while (!(convertCoords(rX, rY).isPassable()));
+            rY = (int) (Math.random() * (Tuning.MAP_HEIGHT));
+        } while (!grid[rY][rX].isPassable());
         player = new Player(rX, rY, this);
         Logger.logCodeMessage("Made new player at: " + player.getX() + ", " + player.getY());
 
@@ -97,9 +97,9 @@ public class SneakGame {
 
         int counter = 0;
         while (counter < Tuning.ENEMY_COUNT) {
-            int x = (int) (Math.random() * (Tuning.MAP_WIDTH * Tuning.TILE_SIZE));
-            int y = (int) (Math.random() * (Tuning.MAP_HEIGHT * Tuning.TILE_SIZE));
-            if (convertCoords(x, y).isPassable()) {
+            int x = (int) (Math.random() * (Tuning.MAP_WIDTH));
+            int y = (int) (Math.random() * (Tuning.MAP_HEIGHT));
+            if (grid[y][x].isPassable()) {
                 enemies.add(new Enemy(x, y, this, (int) (Math.random() * 3)));
                 counter++;
             }
@@ -113,12 +113,12 @@ public class SneakGame {
      */
     private void makeSandPit(Tile t) {
         t.setType(Tile.SAND); //set sent tile to sand
-        for (int x = t.getX() - (3 * Tuning.TILE_SIZE); x < t.getX() + (3 * Tuning.TILE_SIZE); x += Tuning.TILE_SIZE) {
-            for (int y = t.getY() - (3 * Tuning.TILE_SIZE); y < t.getY() + (3 * Tuning.TILE_SIZE); y += Tuning.TILE_SIZE) {
-                if (Math.random() > 0.7 || convertCoords(x, y) == null) { //outside board
+        for (int x = t.getX() - 3; x < t.getX() + 3; x++) {
+            for (int y = t.getY() - 3; y < t.getY() + 3; y++) {
+                if (Math.random() > 0.7 || grid[y][x] == null) { //outside board
                     continue;
                 }
-                convertCoords(x, y).setType(Tile.SAND);
+                grid[y][x].setType(Tile.SAND);
             }
         }
     }
@@ -130,12 +130,12 @@ public class SneakGame {
      */
     private void makeMudPit(Tile t) {
         t.setType(Tile.MUD); //set sent tile to sand
-        for (int x = t.getX() - (3 * Tuning.TILE_SIZE); x < t.getX() + (3 * Tuning.TILE_SIZE); x += Tuning.TILE_SIZE) {
-            for (int y = t.getY() - (3 * Tuning.TILE_SIZE); y < t.getY() + (3 * Tuning.TILE_SIZE); y += Tuning.TILE_SIZE) {
-                if (Math.random() > 0.7 || convertCoords(x, y) == null) { //outside board
+        for (int x = t.getX() - 3; x < t.getX() + 3; x++) {
+            for (int y = t.getY() - 3; y < t.getY() + 3; y++) {
+                if (Math.random() > 0.7 || grid[y][x] == null) { //outside board
                     continue;
                 }
-                convertCoords(x, y).setType(Tile.MUD);
+                grid[y][x].setType(Tile.MUD);
             }
         }
     }
@@ -154,40 +154,40 @@ public class SneakGame {
             return;
         }
 
-        convertCoords(x, y).setType(Tile.WATER);
+        grid[y][x].setType(Tile.WATER);
         int bridges = 0;
         for (int i = 0; i < Tuning.MAP_HEIGHT - 1; i++) {
-            y += Tuning.TILE_SIZE;
+            y++;
             //System.out.println("Y:" + y);
             //System.out.println("X" + x);
 
             //keep generating river
             if (Math.random() > 0.2) { //go down
                 if (Math.random() > 0.1) { //make water
-                    convertCoords(x, y).setType(Tile.WATER);
+                    grid[y][x].setType(Tile.WATER);
                 } else { //make bridge
-                    convertCoords(x, y).setType(Tile.WOOD);
+                    grid[y][x].setType(Tile.WOOD);
                     bridges++;
                 }
             } else { //go sideways
                 if (Math.random() > 0.5) {
-                    convertCoords(x, y).setType(Tile.WATER);
-                    if (x + Tuning.TILE_SIZE < Tuning.MAP_WIDTH * Tuning.TILE_SIZE) {
-                        x += Tuning.TILE_SIZE;
+                    grid[y][x].setType(Tile.WATER);
+                    if (x + 1 < Tuning.MAP_WIDTH) {
+                        x++;
                     }
-                    convertCoords(x, y).setType(Tile.WATER);
+                    grid[y][x].setType(Tile.WATER);
                 } else {
-                    convertCoords(x, y).setType(Tile.WATER);
-                    if (x - Tuning.TILE_SIZE > 0) {
-                        x -= Tuning.TILE_SIZE;
+                    grid[y][x].setType(Tile.WATER);
+                    if (x - 1 > 0) {
+                        x--;
                     }
-                    convertCoords(x, y).setType(Tile.WATER);
+                    grid[y][x].setType(Tile.WATER);
                 }
             }
 
             //ensure a bridge always gens
             if (i == Tuning.MAP_HEIGHT / 2 && bridges < 1) {
-                convertCoords(x, y).setType(Tile.WOOD);
+                grid[y][x].setType(Tile.WOOD);
                 bridges++;
             }
         }
@@ -207,28 +207,28 @@ public class SneakGame {
             return;
         }
 
-        convertCoords(x, y).setType(Tile.ICE);
+        grid[y][x].setType(Tile.ICE);
         for (int i = 0; i < Tuning.MAP_HEIGHT - 1; i++) {
-            y += Tuning.TILE_SIZE;
+            y++;
             //System.out.println("Y:" + y);
             //System.out.println("X" + x);
 
             //keep generating river
             if (Math.random() > 0.2) { //go down
-                convertCoords(x, y).setType(Tile.ICE);
+                grid[y][x].setType(Tile.ICE);
             } else { //go sideways
                 if (Math.random() > 0.5) {
-                    convertCoords(x, y).setType(Tile.ICE);
-                    if (x + Tuning.TILE_SIZE < Tuning.MAP_WIDTH * Tuning.TILE_SIZE) {
-                        x += Tuning.TILE_SIZE;
+                    grid[y][x].setType(Tile.ICE);
+                    if (x + 1 < Tuning.MAP_WIDTH) {
+                        x++;
                     }
-                    convertCoords(x, y).setType(Tile.ICE);
+                    grid[y][x].setType(Tile.ICE);
                 } else {
-                    convertCoords(x, y).setType(Tile.ICE);
-                    if (x - Tuning.TILE_SIZE > 0) {
-                        x -= Tuning.TILE_SIZE;
+                    grid[y][x].setType(Tile.ICE);
+                    if (x - 1 > 0) {
+                        x--;
                     }
-                    convertCoords(x, y).setType(Tile.ICE);
+                    grid[y][x].setType(Tile.ICE);
                 }
             }
 
@@ -247,12 +247,12 @@ public class SneakGame {
         try {
             if (vertical) {
                 t.setType(Tile.STONE_BRICKS);
-                convertCoords(tX, tY - Tuning.TILE_SIZE).setType(Tile.STONE_BRICKS);
-                convertCoords(tX, tY + Tuning.TILE_SIZE).setType(Tile.STONE_BRICKS);
+                grid[tY + 1][tX].setType(Tile.STONE_BRICKS);
+                grid[tY - 1][tX].setType(Tile.STONE_BRICKS);
             } else {
                 t.setType(Tile.STONE_BRICKS);
-                convertCoords(tX - Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
-                convertCoords(tX + Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
+                grid[tY][tX + 1].setType(Tile.STONE_BRICKS);
+                grid[tY][tX - 1].setType(Tile.STONE_BRICKS);
             }
         } catch (NullPointerException e) {
             if (Tuning.DEBUG && Tuning.SHOULD_PRINT_ERRORS) {
@@ -272,44 +272,45 @@ public class SneakGame {
         int tY = t.getY();
 
         //right from tile
-        convertCoords(tX, tY).setType(Tile.STONE_BRICKS);
-        for (int i = tX; i < ((internalSize + 1) * Tuning.TILE_SIZE) + tX; i += Tuning.TILE_SIZE) {
-            convertCoords(i, tY).setType(Tile.STONE_BRICKS);
+        t.setType(Tile.STONE_BRICKS);
+        for (int i = tX; i < (internalSize + 1) + tX; i++) {
+            grid[tY][i].setType(Tile.STONE_BRICKS);
         }
 
         //down from tile
-        for (int i = tY; i < ((internalSize + 1) * Tuning.TILE_SIZE) + tY; i += Tuning.TILE_SIZE) {
-            convertCoords(tX, i).setType(Tile.STONE_BRICKS);
+        for (int i = tY; i < (internalSize + 1) + tY; i++) {
+            grid[i][tX].setType(Tile.STONE_BRICKS);
         }
 
         //bottom line
-        for (int i = tX; i < ((internalSize + 2) * Tuning.TILE_SIZE) + tX; i += Tuning.TILE_SIZE) {
-            convertCoords(i, tY + ((internalSize + 1) * Tuning.TILE_SIZE)).setType(Tile.STONE_BRICKS);
+        for (int i = tX; i < (internalSize + 2) + tX; i++) {
+            grid[tY + (internalSize + 1)][i].setType(Tile.STONE_BRICKS);
         }
 
         //right wall
-        for (int i = tY; i < ((internalSize + 1) * Tuning.TILE_SIZE) + tY; i += Tuning.TILE_SIZE) {
-            convertCoords(tX + ((internalSize + 1) * Tuning.TILE_SIZE), i).setType(Tile.STONE_BRICKS);
+        for (int i = tY; i < (internalSize + 1) + tY; i++) {
+            grid[i][tX + (internalSize + 1)].setType(Tile.STONE_BRICKS);
         }
         //floor
-        for (int x = tX + Tuning.TILE_SIZE; x < tX + (Tuning.TILE_SIZE * (internalSize + 1)); x += Tuning.TILE_SIZE) {
-            for (int y = tY + Tuning.TILE_SIZE; y < tY + (Tuning.TILE_SIZE * (internalSize + 1)); y += Tuning.TILE_SIZE) {
-                convertCoords(x, y).setType(Tile.WOOD);
+        for (int x = tX + 1; x < tX + (internalSize + 1); x++) {
+            for (int y = tY + 1; y < tY + (internalSize + 1); y++) {
+                grid[y][x].setType(Tile.WOOD);
             }
         }
+
         //create a door
         switch ((int) (Math.random() * 3)) {
             case 0: //top
-                convertCoords(tX + ((internalSize * Tuning.TILE_SIZE) / 2), tY).setType(Tile.WOOD);
+                grid[tY][tX + (internalSize / 2)].setType(Tile.WOOD);
                 break;
             case 1: //right
-                convertCoords(tX + ((internalSize + 1) * Tuning.TILE_SIZE), tY + ((internalSize * Tuning.TILE_SIZE) / 2)).setType(Tile.WOOD);
+                grid[tY + (internalSize / 2)][tX + (internalSize + 1)].setType(Tile.WOOD);
                 break;
             case 2: //down
-                convertCoords(tX + ((internalSize * Tuning.TILE_SIZE) / 2), tY + ((internalSize + 1) * Tuning.TILE_SIZE)).setType(Tile.WOOD);
+                grid[tY + (internalSize + 1)][tX + (internalSize / 2)].setType(Tile.WOOD);
                 break;
             case 3: //left
-                convertCoords(tX, tY + ((internalSize * Tuning.TILE_SIZE) / 2)).setType(Tile.WOOD);
+                grid[tY + (internalSize / 2)][tX].setType(Tile.WOOD);
                 break;
         }
 
