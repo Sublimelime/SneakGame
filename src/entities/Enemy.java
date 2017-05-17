@@ -1,7 +1,6 @@
 package entities;
 
 import gamelogic.SneakGame;
-import gamelogic.Tuning;
 
 /**
  * A class for the basic enemy.
@@ -30,29 +29,52 @@ public class Enemy extends Entity {
         this.type = type;
     }
 
+    /**
+     * Makes the enemy move towards the player.
+     *
+     * @param player Player to move towards.
+     */
     public void doMove(Player player) {
-        int yDiff = (Math.abs(player.getCurrentTile().getY() - getCurrentTile().getY()))/Tuning.TILE_SIZE;
-        int xDiff = (Math.abs(player.getCurrentTile().getX() - getCurrentTile().getX()))/Tuning.TILE_SIZE;
+        int yDiff = (Math.abs(player.getCurrentTile().getY() - getCurrentTile().getY()));
+        int xDiff = (Math.abs(player.getCurrentTile().getX() - getCurrentTile().getX()));
 
         if (yDiff > xDiff) {
-            if (yDiff >= (getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE) {
-                if (isValidMove(getGame().convertCoords(getX(), player.getY()))) {
+            //if the difference is less than the movement range of the tile we're on
+            if (yDiff <= getCurrentTile().getMovementRange()) {
+                if (isValidMove(getGame().getGrid()[player.getY()][getX()])) {
                     setY(player.getY());
                 }
-            } else {
-                if (isValidMove(getGame().convertCoords(getX(), (player.getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE))) {
-                    setY((getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE);
+            } else { //outside of our movement range, so just go max range
+                if (getY() < player.getY()) {
+                    if (isValidMove(getGame().getGrid()[getCurrentTile().getMovementRange() + getY()][getX()])) {
+                        setY(getCurrentTile().getMovementRange() + getY());
+                    }
+                } else {
+                    if (isValidMove(getGame().getGrid()[getY() - getCurrentTile().getMovementRange()][getX()])) {
+                        setY(getY() - getCurrentTile().getMovementRange());
+                    }
                 }
             }
         } else if (xDiff > yDiff) {
-            if (xDiff >= (getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE) {
-                if (isValidMove(getGame().convertCoords(player.getX(), getY()))) {
+            //if the difference is less than the movement range of the tile we're on
+            if (xDiff <= getCurrentTile().getMovementRange()) {
+                if (isValidMove(getGame().getGrid()[getY()][player.getX()])) {
                     setX(player.getX());
                 }
-            } else {
-                if (isValidMove(getGame().convertCoords((player.getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE, getY()))) {
-                    setX((getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE);
+            } else { //outside of our movement range, so just go max range
+                if (getX() < player.getX()) { //go right
+                    if (isValidMove(getGame().getGrid()[getY()][getX() + getCurrentTile().getMovementRange()])) {
+                        setX((getCurrentTile().getMovementRange()) + getX());
+                    }
+                } else { //go left
+                    if (isValidMove(getGame().getGrid()[getY()][getX() - getCurrentTile().getMovementRange()])) {
+                        setX(getX() - getCurrentTile().getMovementRange());
+                    }
                 }
+            }
+        } else { //they're the same
+            if (isValidMove(getGame().getGrid()[player.getY()][getX()])) {
+                setY(player.getY());
             }
         }
     }

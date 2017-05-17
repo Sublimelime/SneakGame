@@ -69,21 +69,21 @@ public abstract class Entity {
         int yDiff = tY - currentTile.getY(), xDiff = tX - currentTile.getX();
 
         //if move is even inside the map
-        if ((tX >= 0 && tX <= (Tuning.TILE_SIZE * Tuning.MAP_WIDTH)) && (tY >= 0 && tY <= (Tuning.TILE_SIZE * Tuning.MAP_HEIGHT))) {
+        if ((tX >= 0 && tX <= Tuning.MAP_WIDTH) && (tY >= 0 && tY <= Tuning.MAP_HEIGHT)) {
             //if the x is within range of the tile
-            if (Math.abs(xDiff) <= (currentTile.getMovementRange() * Tuning.TILE_SIZE)) {
+            if (Math.abs(xDiff) <= currentTile.getMovementRange()) {
                 if (tY == currentTile.getY()) { //if y values match
                     if (xDiff < 0) { //if going left
-                        for (int x = currentTile.getX(); x >= tX; x -= Tuning.TILE_SIZE) {
-                            Tile test = game.convertCoords(x, tY);
+                        for (int x = currentTile.getX(); x >= tX; x--) {
+                            Tile test = game.getGrid()[tY][x];
                             if (!test.isPassable()) {
                                 return false;
                             }
                         }
                         return true;
                     } else if (xDiff > 0) { //if going right
-                        for (int x = currentTile.getX(); x <= tX; x += Tuning.TILE_SIZE) {
-                            Tile test = game.convertCoords(x, tY);
+                        for (int x = currentTile.getX(); x <= tX; x++) {
+                            Tile test = game.getGrid()[tY][x];
                             if (!test.isPassable()) {
                                 return false;
                             }
@@ -93,19 +93,19 @@ public abstract class Entity {
                 }
             }
             //if the y is within range of the tile
-            if (Math.abs(yDiff) <= (currentTile.getMovementRange() * Tuning.TILE_SIZE)) {
+            if (Math.abs(yDiff) <= currentTile.getMovementRange()) {
                 if (tX == currentTile.getX()) { //if x values match
                     if (yDiff < 0) { //if going up
-                        for (int y = currentTile.getY(); y >= tY; y -= Tuning.TILE_SIZE) {
-                            Tile test = game.convertCoords(tX, y);
+                        for (int y = currentTile.getY(); y >= tY; y--) {
+                            Tile test = game.getGrid()[y][tX];
                             if (!test.isPassable()) {
                                 return false;
                             }
                         }
                         return true;
                     } else if (yDiff > 0) { //if going down
-                        for (int y = currentTile.getY(); y <= tY; y += Tuning.TILE_SIZE) {
-                            Tile test = game.convertCoords(tX, y);
+                        for (int y = currentTile.getY(); y <= tY; y++) {
+                            Tile test = game.getGrid()[y][tX];
                             if (!test.isPassable()) {
                                 return false;
                             }

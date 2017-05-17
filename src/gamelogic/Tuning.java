@@ -35,5 +35,5 @@ public class Tuning {
     public static final int ENEMY_COUNT = 10;
 
     //if the player is not bound by valid moves
-    public static final boolean PLAYER_FREE_MOVE = true;
+    public static final boolean PLAYER_FREE_MOVE = false;
 }

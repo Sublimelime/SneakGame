@@ -360,8 +360,8 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 game.getPlayer().setOrientation(Player.UP);
             }
 
-            game.getPlayer().setX(x);
-            game.getPlayer().setY(y);
+            game.getPlayer().setX(x / Tuning.TILE_SIZE);
+            game.getPlayer().setY(y / Tuning.TILE_SIZE);
 
             if (game.checkDeath()) {
 
