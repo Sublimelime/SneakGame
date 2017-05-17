@@ -21,7 +21,7 @@ public abstract class Entity {
         this.x = x;
         this.y = y;
         this.game = game;
-        currentTile = game.convertCoords(x, y);
+        currentTile = game.getGrid()[y][x];
     }
 
     public int getX() {
@@ -30,7 +30,7 @@ public abstract class Entity {
 
     public void setX(int x) {
         this.x = x;
-        currentTile = game.convertCoords(x, y);
+        currentTile = game.getGrid()[y][x];
     }
 
     public int getY() {
@@ -39,7 +39,7 @@ public abstract class Entity {
 
     public void setY(int y) {
         this.y = y;
-        currentTile = game.convertCoords(x, y);
+        currentTile = game.getGrid()[y][x];
     }
 
     public Tile getCurrentTile() {

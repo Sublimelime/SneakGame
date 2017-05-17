@@ -86,8 +86,8 @@ public class SneakGame {
         //make player
         int rX, rY;
         do {
-            rX = (int) (Math.random() * 100);
-            rY = (int) (Math.random() * (Tuning.MAP_HEIGHT));
+            rX = (int) (Math.random() * 10);
+            rY = (int) (Math.random() * (Tuning.MAP_HEIGHT - 1));
         } while (!grid[rY][rX].isPassable());
         player = new Player(rX, rY, this);
         Logger.logCodeMessage("Made new player at: " + player.getX() + ", " + player.getY());
@@ -115,7 +115,8 @@ public class SneakGame {
         t.setType(Tile.SAND); //set sent tile to sand
         for (int x = t.getX() - 3; x < t.getX() + 3; x++) {
             for (int y = t.getY() - 3; y < t.getY() + 3; y++) {
-                if (Math.random() > 0.7 || grid[y][x] == null) { //outside board
+                if (Math.random() > 0.7 || y < 0 || y > Tuning.MAP_HEIGHT - 1
+                        || x < 0 || x > Tuning.MAP_WIDTH - 1) { //outside board
                     continue;
                 }
                 grid[y][x].setType(Tile.SAND);
@@ -132,7 +133,8 @@ public class SneakGame {
         t.setType(Tile.MUD); //set sent tile to sand
         for (int x = t.getX() - 3; x < t.getX() + 3; x++) {
             for (int y = t.getY() - 3; y < t.getY() + 3; y++) {
-                if (Math.random() > 0.7 || grid[y][x] == null) { //outside board
+                if (Math.random() > 0.7 || y < 0 || y > Tuning.MAP_HEIGHT - 1
+                        || x < 0 || x > Tuning.MAP_WIDTH - 1) { //outside board
                     continue;
                 }
                 grid[y][x].setType(Tile.MUD);
