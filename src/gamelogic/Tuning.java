@@ -14,7 +14,7 @@ import java.awt.Color;
 public class Tuning {
 
     //Size of the screen
-    public final static int SCREEN_WIDTH = 1920; //640 for normal, 1920 to show whole map
+    public final static int SCREEN_WIDTH = 1680; //640 for normal, 1680 to show whole map
     public final static int SCREEN_HEIGHT = 640;
 
     //map size
@@ -25,7 +25,7 @@ public class Tuning {
     public final static int TILE_SIZE = 16;
 
     //set to true if debugging
-    public final static boolean DEBUG = false, SHOULD_PRINT_ERRORS = false;
+    public final static boolean DEBUG = true, SHOULD_PRINT_ERRORS = false;
 
     //colors
     public static final Color PLAYER_MOVE_COLOR = new Color(255, 255, 255, 100);
@@ -35,5 +35,5 @@ public class Tuning {
     public static final int ENEMY_COUNT = 10;
 
     //if the player is not bound by valid moves
-    public static final boolean PLAYER_FREE_MOVE = false;
+    public static final boolean PLAYER_FREE_MOVE = true;
 }

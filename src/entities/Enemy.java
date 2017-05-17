@@ -31,8 +31,8 @@ public class Enemy extends Entity {
     }
 
     public void doMove(Player player) {
-        int yDiff = Math.abs(player.getY() - getY());
-        int xDiff = Math.abs(player.getX() - getX());
+        int yDiff = (Math.abs(player.getCurrentTile().getY() - getCurrentTile().getY()))/Tuning.TILE_SIZE;
+        int xDiff = (Math.abs(player.getCurrentTile().getX() - getCurrentTile().getX()))/Tuning.TILE_SIZE;
 
         if (yDiff > xDiff) {
             if (yDiff >= (getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE) {
