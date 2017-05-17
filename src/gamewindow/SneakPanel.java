@@ -6,6 +6,7 @@ import gamelogic.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import libraries.ImageTools;
 import libraries.Logger;
@@ -280,9 +281,17 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     @Override
     public void keyTyped(KeyEvent e) {
         if (e.getKeyChar() == 'n') {
-            System.out.println("Making new game.");
-            Logger.logCodeMessage("Making new game.");
-            game = new SneakGame();
+            if (!Tuning.DEBUG) {
+                if (JOptionPane.showConfirmDialog(null, "Restart the game?", "Restart the game?", JOptionPane.YES_NO_OPTION) == 0) {
+                    System.out.println("Making new game.");
+                    Logger.logCodeMessage("Making new game.");
+                    game = new SneakGame();
+                }
+            } else {
+                System.out.println("Making new game.");
+                Logger.logCodeMessage("Making new game.");
+                game = new SneakGame();
+            }
         }
     }
 
