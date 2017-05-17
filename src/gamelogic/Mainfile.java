@@ -19,5 +19,8 @@ public class Mainfile {
         new Logger();
         Logger.logCodeMessage("-------------Start Game ---------");
         new SneakFrame();
+        if (!Tuning.DEBUG) {
+            Logger.messageWindow("Welcome to SneakGame!");
+        }
     }
 }
