@@ -301,7 +301,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         int y = e.getY();
         Tile move = game.convertCoords(x, y);
 
-        if (game.getPlayer().isValidMove(move)) {
+        if (game.getPlayer().isValidMove(move) || Tuning.PLAYER_FREE_MOVE) {
             int pY = game.getPlayer().getCurrentTile().getY();
             int pX = game.getPlayer().getCurrentTile().getX();
             //if the player can move, move them, fixing orientation
