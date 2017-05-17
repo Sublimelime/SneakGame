@@ -29,6 +29,28 @@ public class Enemy extends Entity {
         this.type = type;
     }
 
+    @Override
+    public void setX(int x) {
+        //don't let movement happen onto other enemies
+        for (Enemy enemy : getGame().getEnemies()) {
+            if (enemy.getCurrentTile() == getGame().getGrid()[getY()][x]) {
+                return;
+            }
+        }
+        super.setX(x);
+    }
+
+    @Override
+    public void setY(int y) {
+        //don't let movement happen onto other enemies
+        for (Enemy enemy : getGame().getEnemies()) {
+            if (enemy.getCurrentTile() == getGame().getGrid()[y][getX()]) {
+                return;
+            }
+        }
+        super.setY(y);
+    }
+
     /**
      * Makes the enemy move towards the player.
      *
