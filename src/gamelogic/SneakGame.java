@@ -255,7 +255,7 @@ public class SneakGame {
                 convertCoords(tX + Tuning.TILE_SIZE, tY).setType(Tile.STONE_BRICKS);
             }
         } catch (NullPointerException e) {
-            if (Tuning.DEBUG) {
+            if (Tuning.DEBUG && Tuning.SHOULD_PRINT_ERRORS) {
                 e.printStackTrace();
             }
         }
