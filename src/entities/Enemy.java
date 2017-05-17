@@ -1,6 +1,7 @@
 package entities;
 
 import gamelogic.SneakGame;
+import gamelogic.Tuning;
 
 /**
  * A class for the basic enemy.
@@ -29,4 +30,30 @@ public class Enemy extends Entity {
         this.type = type;
     }
 
+    public void doMove(Player player) {
+        int yDiff = Math.abs(player.getY() - getY());
+        int xDiff = Math.abs(player.getX() - getX());
+
+        if (yDiff > xDiff) {
+            if (yDiff >= (getCurrentTile().getMovementRange())* Tuning.TILE_SIZE) {
+                if (isValidMove(getGame().convertCoords(getX(),player.getY()))) {
+                    setY(player.getY());
+                }
+            } else {
+                if (isValidMove(getGame().convertCoords(getX(),(player.getCurrentTile().getMovementRange())*Tuning.TILE_SIZE))) {
+                    setY((getCurrentTile().getMovementRange())* Tuning.TILE_SIZE);
+                }
+            }
+        } else if (xDiff > yDiff) {
+            if (xDiff >= (getCurrentTile().getMovementRange())* Tuning.TILE_SIZE) {
+                if (isValidMove(getGame().convertCoords(player.getX(),getY()))) {
+                    setX(player.getX());
+                }
+            } else {
+                if (isValidMove(getGame().convertCoords((player.getCurrentTile().getMovementRange())*Tuning.TILE_SIZE,getY()))) {
+                    setX((getCurrentTile().getMovementRange())* Tuning.TILE_SIZE);
+                }
+            }
+        }
+    }
 }

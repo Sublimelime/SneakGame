@@ -50,6 +50,10 @@ public abstract class Entity {
         this.currentTile = currentTile;
     }
 
+    public SneakGame getGame() {
+        return game;
+    }
+
     /**
      * Checks if a move is valid based on the entity's location.
      *
