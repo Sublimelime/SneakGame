@@ -319,7 +319,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             game.getPlayer().setY(y);
 
             //todo check death here, if so, player has killed the enemy
-            //todo call doMove on all enemies
+            game.getEnemies().forEach((enemy) -> {
+                enemy.doMove(game.getPlayer());
+            });
+
         }
     }
 

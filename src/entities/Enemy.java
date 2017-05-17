@@ -35,23 +35,23 @@ public class Enemy extends Entity {
         int xDiff = Math.abs(player.getX() - getX());
 
         if (yDiff > xDiff) {
-            if (yDiff >= (getCurrentTile().getMovementRange())* Tuning.TILE_SIZE) {
-                if (isValidMove(getGame().convertCoords(getX(),player.getY()))) {
+            if (yDiff >= (getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE) {
+                if (isValidMove(getGame().convertCoords(getX(), player.getY()))) {
                     setY(player.getY());
                 }
             } else {
-                if (isValidMove(getGame().convertCoords(getX(),(player.getCurrentTile().getMovementRange())*Tuning.TILE_SIZE))) {
-                    setY((getCurrentTile().getMovementRange())* Tuning.TILE_SIZE);
+                if (isValidMove(getGame().convertCoords(getX(), (player.getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE))) {
+                    setY((getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE);
                 }
             }
         } else if (xDiff > yDiff) {
-            if (xDiff >= (getCurrentTile().getMovementRange())* Tuning.TILE_SIZE) {
-                if (isValidMove(getGame().convertCoords(player.getX(),getY()))) {
+            if (xDiff >= (getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE) {
+                if (isValidMove(getGame().convertCoords(player.getX(), getY()))) {
                     setX(player.getX());
                 }
             } else {
-                if (isValidMove(getGame().convertCoords((player.getCurrentTile().getMovementRange())*Tuning.TILE_SIZE,getY()))) {
-                    setX((getCurrentTile().getMovementRange())* Tuning.TILE_SIZE);
+                if (isValidMove(getGame().convertCoords((player.getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE, getY()))) {
+                    setX((getCurrentTile().getMovementRange()) * Tuning.TILE_SIZE);
                 }
             }
         }
