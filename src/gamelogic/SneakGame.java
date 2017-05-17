@@ -367,4 +367,13 @@ public class SneakGame {
         return enemies;
     }
 
+    /**
+     * Returns if an enemy is on top of a player, or vice versa.
+     *
+     * @return True if collision between enemies and player.
+     */
+    public boolean checkDeath() {
+        return enemies.stream().anyMatch((enemy) -> (enemy.getCurrentTile() == player.getCurrentTile()));
+    }
+
 }
