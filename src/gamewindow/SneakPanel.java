@@ -328,13 +328,9 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         if (e.getKeyChar() == 'n') {
             if (!Tuning.DEBUG) {
                 if (JOptionPane.showConfirmDialog(null, "Restart the game?", "Restart the game?", JOptionPane.YES_NO_OPTION) == 0) {
-                    System.out.println("Making new game.");
-                    Logger.logCodeMessage("Making new game.");
                     reset();
                 }
             } else {
-                System.out.println("Making new game.");
-                Logger.logCodeMessage("Making new game.");
                 reset();
             }
         }
@@ -425,6 +421,8 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     }
 
     private void reset() {
+        System.out.println("Making new game.");
+        Logger.logCodeMessage("Making new game.");
         game = new SneakGame();
     }
 
