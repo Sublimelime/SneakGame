@@ -78,6 +78,9 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
     public void paint(Graphics g) {
         Graphics bg = buffer.getGraphics();
+        bg.setColor(Color.white);
+        bg.fillRect(0, 0, getWidth(), getHeight());
+
         drawMap(bg);
         if (Tuning.DEBUG) {
             drawGuidelines(bg, true);
@@ -203,13 +206,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      * @param g Graphics to draw onto.
      */
     private void drawMap(Graphics g) {
-        for (int x = shift; x < Tuning.MAP_WIDTH; x++) {
-            for (int y = 0; y < Tuning.MAP_HEIGHT; y++) {
-                Tile currentTile = game.getGrid()[y][x];
-                if (currentTile.getX() * Tuning.TILE_SIZE > Tuning.SCREEN_WIDTH
-                        || currentTile.getX() * Tuning.TILE_SIZE < 0) { //don't render offscreen tiles
-                    continue;
-                }
+        for (int x = 0; x < Tuning.SCREEN_WIDTH / Tuning.TILE_SIZE; x++) {
+            for (int y = 0; y < Tuning.SCREEN_HEIGHT / Tuning.TILE_SIZE; y++) {
+                Tile currentTile = game.getGrid()[y][x + shift];
+
                 switch (currentTile.getType()) { //draw based on type
                     case Tile.GRASS:
                         switch (currentTile.getGrassType()) {
@@ -268,7 +268,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      */
     private void drawGuidelines(Graphics g, final boolean drawNums) {
         g.setColor(Color.WHITE);
-        for (int x = shift; x < Tuning.SCREEN_WIDTH; x += Tuning.TILE_SIZE) {
+        for (int x = 0; x < Tuning.SCREEN_WIDTH; x += Tuning.TILE_SIZE) {
             g.drawLine(x, 0, x, Tuning.SCREEN_HEIGHT);
         }
         for (int y = 0; y < Tuning.SCREEN_WIDTH; y += Tuning.TILE_SIZE) {
@@ -278,7 +278,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             return;
         }
         g.setFont(new Font("Arial", Font.BOLD, 8));
-        int counter = shift;
+        int counter = 0;
         for (int i = 10; i < Tuning.SCREEN_HEIGHT; i += Tuning.TILE_SIZE) {
             g.drawString("" + counter, 5, i);
             counter++;
@@ -335,6 +335,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             } else {
                 reset();
             }
+        } else if (e.getKeyChar() == 'd') {
+            shift++;
+        } else if (e.getKeyChar() == 'a') {
+            shift--;
         }
     }
 

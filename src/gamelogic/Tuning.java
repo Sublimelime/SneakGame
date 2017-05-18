@@ -14,7 +14,7 @@ import java.awt.Color;
 public class Tuning {
 
     //Size of the screen
-    public final static int SCREEN_WIDTH = 1680; //640 for normal, 1680 to show whole map
+    public final static int SCREEN_WIDTH = 640; //640 for normal, 1680 to show whole map
     public final static int SCREEN_HEIGHT = 640;
 
     //map size
