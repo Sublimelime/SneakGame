@@ -30,6 +30,8 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
     BufferedImage gooblin, trool, weesp;
 
+    private int shift = 0;
+
     private SneakGame game;
 
     public SneakPanel() {
@@ -201,7 +203,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      * @param g Graphics to draw onto.
      */
     private void drawMap(Graphics g) {
-        for (int x = 0; x < Tuning.MAP_WIDTH; x++) {
+        for (int x = shift; x < Tuning.MAP_WIDTH; x++) {
             for (int y = 0; y < Tuning.MAP_HEIGHT; y++) {
                 Tile currentTile = game.getGrid()[y][x];
                 if (currentTile.getX() * Tuning.TILE_SIZE > Tuning.SCREEN_WIDTH
