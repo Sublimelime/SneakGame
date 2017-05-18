@@ -379,4 +379,8 @@ public class SneakGame {
         return enemies.stream().anyMatch((enemy) -> (enemy.getCurrentTile() == player.getCurrentTile()));
     }
 
+    public boolean checkWin() {
+        return getPlayer().getX() >= 119;
+    }
+
 }

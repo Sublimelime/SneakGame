@@ -62,7 +62,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         trool = ImageTools.load("resources/trool.png");
         weesp = ImageTools.load("resources/weesp.png");
 
-        game = new SneakGame();
+        reset();
 
         addMouseListener(this);
         addKeyListener(this);
@@ -330,12 +330,12 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 if (JOptionPane.showConfirmDialog(null, "Restart the game?", "Restart the game?", JOptionPane.YES_NO_OPTION) == 0) {
                     System.out.println("Making new game.");
                     Logger.logCodeMessage("Making new game.");
-                    game = new SneakGame();
+                    reset();
                 }
             } else {
                 System.out.println("Making new game.");
                 Logger.logCodeMessage("Making new game.");
-                game = new SneakGame();
+                reset();
             }
         }
     }
@@ -371,6 +371,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 enemy.doMove(game.getPlayer());
             });
 
+            if (game.checkWin()) {
+                Logger.messageWindow("YOU WIN!!");
+                reset();
+            }
         }
     }
 
@@ -411,6 +415,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
     public SneakGame getGame() {
         return game;
+    }
+
+    private void reset() {
+        game = new SneakGame();
     }
 
 }
