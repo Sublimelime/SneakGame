@@ -430,6 +430,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         return game;
     }
 
+    public int getShift() {
+        return shift;
+    }
+
     private void reset() {
         System.out.println("Making new game.");
         Logger.logCodeMessage("Making new game.");
