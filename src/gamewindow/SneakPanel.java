@@ -363,9 +363,16 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             game.getPlayer().setX(x / Tuning.TILE_SIZE);
             game.getPlayer().setY(y / Tuning.TILE_SIZE);
 
-            //todo add lose condition, killing enemies
             if (game.checkDeath()) {
-
+                Enemy killed = null;
+                for (Enemy enemy : game.getEnemies()) {
+                    if (enemy.getCurrentTile() == game.getPlayer().getCurrentTile()) {
+                        killed = enemy;
+                    }
+                }
+                if (killed != null) {
+                    game.getEnemies().remove(killed);
+                }
             }
             game.getEnemies().forEach((enemy) -> {
                 enemy.doMove(game.getPlayer());
