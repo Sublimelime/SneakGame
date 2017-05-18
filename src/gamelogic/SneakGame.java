@@ -380,7 +380,7 @@ public class SneakGame {
     }
 
     public boolean checkWin() {
-        return getPlayer().getX() >= 119;
+        return getPlayer().getX() >= 104;
     }
 
 }
