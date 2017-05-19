@@ -294,15 +294,15 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         for (Enemy enemy : game.getEnemies()) {
             switch (enemy.getType()) {
                 case Enemy.GOOBLIN:
-                    g.drawImage(gooblin, enemy.getCurrentTile().getX() * Tuning.TILE_SIZE,
+                    g.drawImage(gooblin, (enemy.getCurrentTile().getX() - shift) * Tuning.TILE_SIZE,
                             enemy.getCurrentTile().getY() * Tuning.TILE_SIZE, null);
                     break;
                 case Enemy.TROOL:
-                    g.drawImage(trool, enemy.getCurrentTile().getX() * Tuning.TILE_SIZE,
+                    g.drawImage(trool, (enemy.getCurrentTile().getX() - shift) * Tuning.TILE_SIZE,
                             enemy.getCurrentTile().getY() * Tuning.TILE_SIZE, null);
                     break;
                 case Enemy.WEESP:
-                    g.drawImage(weesp, enemy.getCurrentTile().getX() * Tuning.TILE_SIZE,
+                    g.drawImage(weesp, (enemy.getCurrentTile().getX() - shift) * Tuning.TILE_SIZE,
                             enemy.getCurrentTile().getY() * Tuning.TILE_SIZE, null);
                     break;
             }
@@ -437,6 +437,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     private void reset() {
         System.out.println("Making new game.");
         Logger.logCodeMessage("Making new game.");
+        shift = 0;
         game = new SneakGame();
     }
 
