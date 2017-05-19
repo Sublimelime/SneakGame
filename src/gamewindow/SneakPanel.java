@@ -334,11 +334,16 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             } else {
                 reset();
             }
-        } else if (e.getKeyChar() == 'd') {
-            shift++;
-        } else if (e.getKeyChar() == 'a') {
-            shift--;
+        } else if (e.getKeyChar() == 'd' && Tuning.DEBUG) {
+            if (shift + 1 < 80) { //todo fix limit to castle visible
+                shift++;
+            }
+        } else if (e.getKeyChar() == 'a' && Tuning.DEBUG) {
+            if (shift - 1 > -1) {
+                shift--;
+            }
         }
+        System.out.println(shift);
     }
 
     @Override

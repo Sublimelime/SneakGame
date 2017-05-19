@@ -79,6 +79,10 @@ public class SneakGame {
         makeHouse(grid[10][20], 3);
 
         Logger.logOtherMessage("World Gen", "Made houses.");
+
+        makeWinCastle(Tuning.MAP_WIDTH - 1);
+        Logger.logOtherMessage("World Gen", "Made win castle.");
+
         //CLEANUP ------------------------
         Logger.logCodeMessage("Cleaning up remaining unset tiles to grass...");
         voidToGrass();
@@ -262,6 +266,20 @@ public class SneakGame {
                 e.printStackTrace();
             }
         }
+    }
+
+    /**
+     * Creates the castle to win.
+     *
+     * @param column Column to start at
+     */
+    private void makeWinCastle(int column) {
+        for (int i = 0; i < Tuning.MAP_HEIGHT; i++) {
+            grid[i][column].setType(Tile.STONE_BRICKS);
+        }
+        grid[Tuning.MAP_HEIGHT / 2][column].setType(Tile.WOOD);
+        grid[Tuning.MAP_HEIGHT / 3][column].setType(Tile.WOOD);
+        grid[2 * (Tuning.MAP_HEIGHT / 3)][column].setType(Tile.WOOD);
     }
 
     /**
