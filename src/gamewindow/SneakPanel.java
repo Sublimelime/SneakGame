@@ -3,9 +3,14 @@ package gamewindow;
 import entities.Enemy;
 import entities.Player;
 import gamelogic.*;
+
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import libraries.ImageTools;
@@ -31,6 +36,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     BufferedImage gooblin, trool, weesp;
 
     private static int shift = 0;
+    AudioClip win, kill, death;
 
     private SneakGame game;
 
@@ -63,6 +69,20 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         gooblin = ImageTools.load("resources/gooblin.png");
         trool = ImageTools.load("resources/trool.png");
         weesp = ImageTools.load("resources/weesp.png");
+
+        try {
+            URL url1 = new URL("File:" + "resources/sounds/win.wav");
+            win = Applet.newAudioClip(url1);
+
+            URL url2 = new URL("File:" + "resources/sounds/kill.wav");
+            kill = Applet.newAudioClip(url2);
+
+            URL url3 = new URL("File:" + "resources/sounds/death.wav");
+            death = Applet.newAudioClip(url3);
+        } catch (MalformedURLException mE) {
+            System.out.println("Error in loading sounds: " + mE.getMessage());
+            mE.printStackTrace();
+        }
 
         reset();
 
@@ -378,17 +398,20 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 }
                 if (killed != null) {
                     game.getEnemies().remove(killed);
+                    kill.play();
                 }
             }
             game.getEnemies().forEach((enemy) -> {
                 enemy.doMove(game.getPlayer());
             });
             if (game.checkDeath()) {
+                death.play();
                 Logger.messageWindow("You died.");
                 reset();
             }
 
             if (game.checkWin()) {
+                win.play();
                 Logger.messageWindow("YOU WIN!!");
                 reset();
             }
