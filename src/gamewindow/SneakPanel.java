@@ -1,11 +1,18 @@
 package gamewindow;
 
+import com.sun.media.sound.SimpleSoundbank;
 import entities.Enemy;
 import entities.Player;
 import gamelogic.*;
+
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
+import java.net.MalformedURLException;
+import java.net.URL;
+import javax.sound.midi.Soundbank;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import libraries.ImageTools;
@@ -29,6 +36,8 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     BufferedImage playerRight, playerUp, playerDown, playerLeft;
 
     BufferedImage gooblin, trool, weesp;
+
+    AudioClip win, kill, death;
 
     private int shift = 0;
 
@@ -63,6 +72,20 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         gooblin = ImageTools.load("resources/gooblin.png");
         trool = ImageTools.load("resources/trool.png");
         weesp = ImageTools.load("resources/weesp.png");
+
+        try {
+            URL url1 = new URL("File:"+"resources/sounds/win.wav");
+            win = Applet.newAudioClip(url1);
+
+            URL url2 = new URL("File:"+"resources/sounds/kill.wav");
+            kill = Applet.newAudioClip(url2);
+
+            URL url3 = new URL("File:"+"resources/sounds/death.wav");
+            death = Applet.newAudioClip(url3);
+        } catch (MalformedURLException mE) {
+            System.out.println("Error in loading sounds: "+mE.getMessage());
+            mE.printStackTrace();
+        }
 
         reset();
 
