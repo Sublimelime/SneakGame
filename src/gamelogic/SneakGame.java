@@ -2,6 +2,7 @@ package gamelogic;
 
 import entities.Enemy;
 import entities.Player;
+import gamewindow.SneakPanel;
 import java.util.ArrayList;
 import libraries.Logger;
 
@@ -344,7 +345,7 @@ public class SneakGame {
      */
     public Tile convertCoords(int x, int y) {
         try {
-            return grid[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE]; //FIXME when we add scrolling, need to account for shift
+            return grid[y / Tuning.TILE_SIZE][(x / Tuning.TILE_SIZE) + SneakPanel.getShift()];
         } catch (ArrayIndexOutOfBoundsException e) {
             if (Tuning.DEBUG && Tuning.SHOULD_PRINT_ERRORS) {
                 e.printStackTrace();

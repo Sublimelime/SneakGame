@@ -30,7 +30,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
     BufferedImage gooblin, trool, weesp;
 
-    private int shift = 0;
+    private static int shift = 0;
 
     private SneakGame game;
 
@@ -85,23 +85,24 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         if (Tuning.DEBUG) {
             drawGuidelines(bg, true);
         }
+        int playerTile = game.getPlayer().getCurrentTile().getX() - shift;
 
         //draw player
         switch (game.getPlayer().getOrientation()) {
             case 0:
-                bg.drawImage(playerUp, game.getPlayer().getCurrentTile().getX() * Tuning.TILE_SIZE,
+                bg.drawImage(playerUp, playerTile * Tuning.TILE_SIZE,
                         game.getPlayer().getCurrentTile().getY() * Tuning.TILE_SIZE, null);
                 break;
             case 1:
-                bg.drawImage(playerLeft, game.getPlayer().getCurrentTile().getX() * Tuning.TILE_SIZE,
+                bg.drawImage(playerLeft, playerTile * Tuning.TILE_SIZE,
                         game.getPlayer().getCurrentTile().getY() * Tuning.TILE_SIZE, null);
                 break;
             case 2:
-                bg.drawImage(playerDown, game.getPlayer().getCurrentTile().getX() * Tuning.TILE_SIZE,
+                bg.drawImage(playerDown, playerTile * Tuning.TILE_SIZE,
                         game.getPlayer().getCurrentTile().getY() * Tuning.TILE_SIZE, null);
                 break;
             case 3:
-                bg.drawImage(playerRight, game.getPlayer().getCurrentTile().getX() * Tuning.TILE_SIZE,
+                bg.drawImage(playerRight, playerTile * Tuning.TILE_SIZE,
                         game.getPlayer().getCurrentTile().getY() * Tuning.TILE_SIZE, null);
                 break;
 
@@ -124,78 +125,76 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         //up from tile
         for (int i = 1; i <= currentTile.getMovementRange(); i++) {
             int y = currentTile.getY() - i;
-            int x = currentTile.getX();
+            int x = currentTile.getX() - shift;
 
             //stop drawing if the y/x are out of board
             if (x < 0 || x > Tuning.MAP_WIDTH - 1 || y < 0 || y > Tuning.MAP_HEIGHT - 1) {
                 break;
             }
 
-            y *= Tuning.TILE_SIZE; //adjust values for pixels
-            x *= Tuning.TILE_SIZE;
-
             //stop drawing out if we hit an impassible tile
-            if (!game.getGrid()[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE].isPassable()) {
+            if (!game.getGrid()[y][x + shift].isPassable()) {
                 break;
             }
+
+            y *= Tuning.TILE_SIZE; //adjust values for pixels
+            x *= Tuning.TILE_SIZE;
             g.fillRect(x, y, Tuning.TILE_SIZE, Tuning.TILE_SIZE);
         }
         //down from tile
         for (int i = 1; i <= currentTile.getMovementRange(); i++) {
             int y = currentTile.getY() + i;
-            int x = currentTile.getX();
+            int x = currentTile.getX() - shift;
 
             //stop drawing if the y/x are out of board
             if (x < 0 || x > Tuning.MAP_WIDTH - 1 || y < 0 || y > Tuning.MAP_HEIGHT - 1) {
                 break;
             }
 
-            y *= Tuning.TILE_SIZE; //adjust values for pixels
-            x *= Tuning.TILE_SIZE;
-
             //stop drawing out if we hit an impassible tile
-            if (game.getGrid()[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE] == null
-                    || !game.getGrid()[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE].isPassable()) {
+            if (game.getGrid()[y][x] == null
+                    || !game.getGrid()[y][x + shift].isPassable()) {
                 break;
             }
+            y *= Tuning.TILE_SIZE; //adjust values for pixels
+            x *= Tuning.TILE_SIZE;
             g.fillRect(x, y, Tuning.TILE_SIZE, Tuning.TILE_SIZE);
         }
         //right from tile
         for (int i = 1; i <= currentTile.getMovementRange(); i++) {
             int y = currentTile.getY();
-            int x = currentTile.getX() + i;
+            int x = currentTile.getX() + i - shift;
 
             //stop drawing if the y/x are out of board
             if (x < 0 || x > Tuning.MAP_WIDTH - 1 || y < 0 || y > Tuning.MAP_HEIGHT - 1) {
                 break;
             }
 
-            y *= Tuning.TILE_SIZE; //adjust values for pixels
-            x *= Tuning.TILE_SIZE;
-
             //stop drawing out if we hit an impassible tile
-            if (game.getGrid()[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE] == null
-                    || !game.getGrid()[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE].isPassable()) {
+            if (game.getGrid()[y][x] == null
+                    || !game.getGrid()[y][x + shift].isPassable()) {
                 break;
             }
+            y *= Tuning.TILE_SIZE; //adjust values for pixels
+            x *= Tuning.TILE_SIZE;
             g.fillRect(x, y, Tuning.TILE_SIZE, Tuning.TILE_SIZE);
         }
         //left from tile
         for (int i = 1; i <= currentTile.getMovementRange(); i++) {
             int y = currentTile.getY();
-            int x = currentTile.getX() - i;
+            int x = currentTile.getX() - i - shift;
 
             //stop drawing if the y/x are out of board
             if (x < 0 || x > Tuning.MAP_WIDTH - 1 || y < 0 || y > Tuning.MAP_HEIGHT - 1) {
                 break;
             }
 
-            y *= Tuning.TILE_SIZE; //adjust values for pixels
-            x *= Tuning.TILE_SIZE;
             //stop drawing out if we hit an impassible tile
-            if (!game.getGrid()[y / Tuning.TILE_SIZE][x / Tuning.TILE_SIZE].isPassable()) {
+            if (!game.getGrid()[y][x + shift].isPassable()) {
                 break;
             }
+            y *= Tuning.TILE_SIZE; //adjust values for pixels
+            x *= Tuning.TILE_SIZE;
             g.fillRect(x, y, Tuning.TILE_SIZE, Tuning.TILE_SIZE);
         }
     }
@@ -362,8 +361,8 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 game.getPlayer().setOrientation(Player.UP);
             }
 
-            game.getPlayer().setX(x / Tuning.TILE_SIZE);
-            game.getPlayer().setY(y / Tuning.TILE_SIZE);
+            game.getPlayer().setX(move.getX());
+            game.getPlayer().setY(move.getY());
 
             if (game.checkDeath()) {
                 Enemy killed = null;
@@ -430,7 +429,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         return game;
     }
 
-    public int getShift() {
+    public static int getShift() {
         return shift;
     }
 
