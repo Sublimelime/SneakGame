@@ -83,11 +83,13 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             if (win == null || kill == null || death == null) {
                 System.out.println("Error in loading sounds.");
                 Logger.logErrorMessage("Unable to load sounds, exiting.");
+                Logger.errorWindow("Sounds", "Cannot load sounds, exiting.");
                 System.exit(-1);
             }
         } catch (MalformedURLException mE) {
             System.out.println("Error in loading sounds: " + mE.getMessage());
             Logger.logErrorMessage("Unable to load sounds, exiting.");
+            Logger.errorWindow("Sounds", "Cannot load sounds, exiting.");
             mE.printStackTrace();
             System.exit(-1);
         }
@@ -411,7 +413,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             player.setX(move.getX());
             player.setY(move.getY());
 
-            /**
+            /*
              * Death is checked. If it succeeds here before enemies move, this
              * means that the player has stepped onto an enemy, which should result
              * in the enemy dying.
