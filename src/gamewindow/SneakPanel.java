@@ -197,7 +197,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             int x = currentTile.getX() + i - shift;
 
             //stop drawing if the y/x are out of board
-            if (x < 0 || x > Tuning.MAP_WIDTH - 1 || y < 0 || y > Tuning.MAP_HEIGHT - 1) {
+            if (x < 0 || x + shift > Tuning.MAP_WIDTH - 1 || y < 0 || y > Tuning.MAP_HEIGHT - 1) {
                 break;
             }
 
@@ -378,11 +378,11 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 reset();
             }
         } else if (e.getKeyChar() == 'd' && Tuning.DEBUG) {
-            if (shift + 1 < 80) { //todo fix limit to castle visible
+            if (shift + 1 < Tuning.SHIFT_MAX) {
                 shift++;
             }
         } else if (e.getKeyChar() == 'a' && Tuning.DEBUG) {
-            if (shift - 1 > -1) {
+            if (shift - 1 >= Tuning.SHIFT_MIN) {
                 shift--;
             }
         }
@@ -428,6 +428,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 if (killed != null) { //remove the enemy the player just killed
                     game.getEnemies().remove(killed);
                     kill.play();
+                    game.spawnRandomEnemy(); //regen the killed enemy somewhere else
                 }
             }
 

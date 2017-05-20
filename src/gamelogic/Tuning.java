@@ -24,6 +24,9 @@ public class Tuning {
     //the size of the square tiles in pixels
     public final static int TILE_SIZE = 16;
 
+    public final static int SHIFT_MAX = 81;
+    public final static int SHIFT_MIN = 0;
+
     //set to true if debugging
     public final static boolean DEBUG = true, SHOULD_PRINT_ERRORS = false;
 
@@ -35,5 +38,5 @@ public class Tuning {
     public static final int ENEMY_COUNT = 10;
 
     //if the player is not bound by valid moves
-    public static final boolean PLAYER_FREE_MOVE = false;
+    public static final boolean PLAYER_FREE_MOVE = true;
 }

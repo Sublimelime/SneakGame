@@ -70,13 +70,10 @@ public class SneakGame {
         }
         Logger.logOtherMessage("World Gen", "Made small walls.");
 
-        //HOUSES ------------------
-//        for (int i = 0; i < 3; i++) {
-//            int row = (int) (Math.random() * Tuning.MAP_HEIGHT); //avoid the bottom of the screen
-//            int column = (int) (Math.random() * Tuning.MAP_WIDTH); //avoid the end of the screen
-//            makeHouse(grid[row][column], 3);
-//        }
+        //HOUSES------------------
         makeHouse(grid[10][20], 3);
+        makeHouse(grid[25][46], 4);
+        makeHouse(grid[19][80], 3);
 
         Logger.logOtherMessage("World Gen", "Made houses.");
 
@@ -100,15 +97,21 @@ public class SneakGame {
         //make enemies
         enemies = new ArrayList<>();
 
-        int counter = 0;
-        while (counter < Tuning.ENEMY_COUNT) {
-            int x = (int) (Math.random() * (Tuning.MAP_WIDTH));
-            int y = (int) (Math.random() * (Tuning.MAP_HEIGHT));
-            if (grid[y][x].isPassable()) {
-                enemies.add(new Enemy(x, y, this, (int) (Math.random() * 3)));
-                counter++;
-            }
+        for (int i = 0; i < Tuning.ENEMY_COUNT; i++) {
+            spawnRandomEnemy();
         }
+    }
+
+    /**
+     * Spawns an enemy randomly somewhere in the map.
+     */
+    public void spawnRandomEnemy() {
+        int x, y;
+        do {
+            x = (int) (Math.random() * (Tuning.MAP_WIDTH));
+            y = (int) (Math.random() * (Tuning.MAP_HEIGHT));
+        } while (!grid[y][x].isPassable() || grid[y][x] == player.getCurrentTile()); //find a valid spot
+        enemies.add(new Enemy(x, y, this, (int) (Math.random() * 3)));
     }
 
     /**
