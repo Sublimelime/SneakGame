@@ -381,12 +381,14 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             if (shift + 1 < Tuning.SHIFT_MAX) {
                 shift++;
             }
+            System.out.println("Current shift: " + shift);
         } else if (e.getKeyChar() == 'a' && Tuning.DEBUG) {
             if (shift - 1 >= Tuning.SHIFT_MIN) {
                 shift--;
             }
+            System.out.println("Current shift: " + shift);
         }
-        System.out.println(shift);
+
     }
 
     @Override
@@ -442,13 +444,21 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 death.play();
                 Logger.messageWindow("You died.");
                 reset();
-            }
-
-            //check for a game win
-            if (game.checkWin()) {
+            } else if (game.checkWin()) { //check for a game win
                 win.play();
                 Logger.messageWindow("YOU WIN!!");
                 reset();
+            } else if (Tuning.AUTO_SHIFT) {
+                //UPDATE SHIFT ------------
+                if (player.getX() < 35) { //page 1
+                    shift = 0;
+                } else if (player.getX() >= 35 && player.getX() < 68) { //page 2
+                    shift = 33;
+                } else if (player.getX() >= 68 && player.getX() < 102) { //page 3
+                    shift = 67;
+                } else if (player.getX() >= 102) {
+                    shift = 80;
+                }
             }
         }
     }
