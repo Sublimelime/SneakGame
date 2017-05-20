@@ -13,7 +13,7 @@ import gamelogic.SneakGame;
  */
 public class Enemy extends Entity {
 
-    int type;
+    final int type;
     public static final int GOOBLIN = 0, TROOL = 1, WEESP = 2;
 
     public Enemy(int x, int y, SneakGame game, int type) {
@@ -23,10 +23,6 @@ public class Enemy extends Entity {
 
     public int getType() {
         return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     @Override
@@ -57,9 +53,11 @@ public class Enemy extends Entity {
      * @param player Player to move towards.
      */
     public void doMove(Player player) {
+        //get the differences between x of the player, and x of the enemy, etc.
         int yDiff = (Math.abs(player.getCurrentTile().getY() - getCurrentTile().getY()));
         int xDiff = (Math.abs(player.getCurrentTile().getX() - getCurrentTile().getX()));
 
+        //if y difference is larger, try to fix that first
         if (yDiff > xDiff) {
             //if the difference is less than the movement range of the tile we're on
             if (yDiff <= getCurrentTile().getMovementRange()) {
@@ -94,7 +92,7 @@ public class Enemy extends Entity {
                     }
                 }
             }
-        } else { //they're the same
+        } else { //they're the same, so we just fix Y manually
             if (isValidMove(getGame().getGrid()[player.getY()][getX()])) {
                 setY(player.getY());
             }

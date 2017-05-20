@@ -31,7 +31,6 @@ public class SneakGame {
             }
         }
         Logger.logCodeMessage("Init all tiles.");
-        //todo extensive code to generate pretty map.
 
         //SAND/MUD PITS -------------------------
         for (int i = 0; i < 8; i++) {
@@ -70,6 +69,7 @@ public class SneakGame {
             }
         }
         Logger.logOtherMessage("World Gen", "Made small walls.");
+
         //HOUSES ------------------
 //        for (int i = 0; i < 3; i++) {
 //            int row = (int) (Math.random() * Tuning.MAP_HEIGHT); //avoid the bottom of the screen
@@ -93,7 +93,7 @@ public class SneakGame {
         do {
             rX = (int) (Math.random() * 10);
             rY = (int) (Math.random() * (Tuning.MAP_HEIGHT - 1));
-        } while (!grid[rY][rX].isPassable());
+        } while (!grid[rY][rX].isPassable()); //ensures that we spawn him on a valid tile
         player = new Player(rX, rY, this);
         Logger.logCodeMessage("Made new player at: " + player.getX() + ", " + player.getY());
 

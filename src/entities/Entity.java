@@ -15,7 +15,7 @@ public abstract class Entity {
 
     private int x, y;
     private Tile currentTile;
-    private SneakGame game;
+    private final SneakGame game;
 
     public Entity(int x, int y, SneakGame game) {
         this.x = x;
@@ -74,6 +74,7 @@ public abstract class Entity {
             if (Math.abs(xDiff) <= currentTile.getMovementRange()) {
                 if (tY == currentTile.getY()) { //if y values match
                     if (xDiff < 0) { //if going left
+                        //check to ensure all tiles on the way are passable
                         for (int x = currentTile.getX(); x >= tX; x--) {
                             Tile test = game.getGrid()[tY][x];
                             if (!test.isPassable()) {
@@ -82,6 +83,7 @@ public abstract class Entity {
                         }
                         return true;
                     } else if (xDiff > 0) { //if going right
+                        //check to ensure all tiles on the way are passable
                         for (int x = currentTile.getX(); x <= tX; x++) {
                             Tile test = game.getGrid()[tY][x];
                             if (!test.isPassable()) {
@@ -96,6 +98,7 @@ public abstract class Entity {
             if (Math.abs(yDiff) <= currentTile.getMovementRange()) {
                 if (tX == currentTile.getX()) { //if x values match
                     if (yDiff < 0) { //if going up
+                        //check to ensure all tiles on the way are passable
                         for (int y = currentTile.getY(); y >= tY; y--) {
                             Tile test = game.getGrid()[y][tX];
                             if (!test.isPassable()) {
@@ -104,6 +107,7 @@ public abstract class Entity {
                         }
                         return true;
                     } else if (yDiff > 0) { //if going down
+                        //check to ensure all tiles on the way are passable
                         for (int y = currentTile.getY(); y <= tY; y++) {
                             Tile test = game.getGrid()[y][tX];
                             if (!test.isPassable()) {

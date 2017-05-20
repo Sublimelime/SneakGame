@@ -3,7 +3,6 @@ package gamewindow;
 import entities.Enemy;
 import entities.Player;
 import gamelogic.*;
-
 import java.applet.Applet;
 import java.applet.AudioClip;
 import java.awt.*;
@@ -29,11 +28,11 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
     private BufferedImage buffer;
     //tiles
-    BufferedImage grass, grass2, grass3, grass4, ice, mud, sand, stone, stoneBricks, water, wood, voidTile;
+    final BufferedImage grass, grass2, grass3, grass4, ice, mud, sand, stone, stoneBricks, water, wood, voidTile;
     //entities
-    BufferedImage playerRight, playerUp, playerDown, playerLeft;
+    final BufferedImage playerRight, playerUp, playerDown, playerLeft;
 
-    BufferedImage gooblin, trool, weesp;
+    final BufferedImage gooblin, trool, weesp;
 
     private static int shift = 0;
     AudioClip win, kill, death;
@@ -70,6 +69,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         trool = ImageTools.load("resources/trool.png");
         weesp = ImageTools.load("resources/weesp.png");
 
+        //Init sounds
         try {
             URL url1 = new URL("File:" + "resources/sounds/win.wav");
             win = Applet.newAudioClip(url1);
@@ -79,12 +79,20 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
             URL url3 = new URL("File:" + "resources/sounds/death.wav");
             death = Applet.newAudioClip(url3);
+
+            if (win == null || kill == null || death == null) {
+                System.out.println("Error in loading sounds.");
+                Logger.logErrorMessage("Unable to load sounds, exiting.");
+                System.exit(-1);
+            }
         } catch (MalformedURLException mE) {
             System.out.println("Error in loading sounds: " + mE.getMessage());
+            Logger.logErrorMessage("Unable to load sounds, exiting.");
             mE.printStackTrace();
+            System.exit(-1);
         }
 
-        reset();
+        reset(); //regen the map, and all entities
 
         addMouseListener(this);
         addKeyListener(this);
@@ -105,25 +113,26 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         if (Tuning.DEBUG) {
             drawGuidelines(bg, true);
         }
-        int playerTile = game.getPlayer().getCurrentTile().getX() - shift;
+        int playerTileX = game.getPlayer().getCurrentTile().getX() - shift;
+        int playerTileY = game.getPlayer().getCurrentTile().getY();
 
         //draw player
         switch (game.getPlayer().getOrientation()) {
             case 0:
-                bg.drawImage(playerUp, playerTile * Tuning.TILE_SIZE,
-                        game.getPlayer().getCurrentTile().getY() * Tuning.TILE_SIZE, null);
+                bg.drawImage(playerUp, playerTileX * Tuning.TILE_SIZE,
+                        playerTileY * Tuning.TILE_SIZE, null);
                 break;
             case 1:
-                bg.drawImage(playerLeft, playerTile * Tuning.TILE_SIZE,
-                        game.getPlayer().getCurrentTile().getY() * Tuning.TILE_SIZE, null);
+                bg.drawImage(playerLeft, playerTileX * Tuning.TILE_SIZE,
+                        playerTileY * Tuning.TILE_SIZE, null);
                 break;
             case 2:
-                bg.drawImage(playerDown, playerTile * Tuning.TILE_SIZE,
-                        game.getPlayer().getCurrentTile().getY() * Tuning.TILE_SIZE, null);
+                bg.drawImage(playerDown, playerTileX * Tuning.TILE_SIZE,
+                        playerTileY * Tuning.TILE_SIZE, null);
                 break;
             case 3:
-                bg.drawImage(playerRight, playerTile * Tuning.TILE_SIZE,
-                        game.getPlayer().getCurrentTile().getY() * Tuning.TILE_SIZE, null);
+                bg.drawImage(playerRight, playerTileX * Tuning.TILE_SIZE,
+                        playerTileY * Tuning.TILE_SIZE, null);
                 break;
 
         }
@@ -228,49 +237,51 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         for (int x = 0; x < Tuning.SCREEN_WIDTH / Tuning.TILE_SIZE; x++) {
             for (int y = 0; y < Tuning.SCREEN_HEIGHT / Tuning.TILE_SIZE; y++) {
                 Tile currentTile = game.getGrid()[y][x + shift];
+                int xInPixels = x * Tuning.TILE_SIZE;
+                int yInPixels = y * Tuning.TILE_SIZE;
 
                 switch (currentTile.getType()) { //draw based on type
                     case Tile.GRASS:
                         switch (currentTile.getGrassType()) {
                             case 0:
-                                g.drawImage(grass, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                                g.drawImage(grass, xInPixels, yInPixels, null);
                                 break;
                             case 1:
-                                g.drawImage(grass2, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                                g.drawImage(grass2, xInPixels, yInPixels, null);
                                 break;
                             case 2:
-                                g.drawImage(grass3, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                                g.drawImage(grass3, xInPixels, yInPixels, null);
                                 break;
                             case 3:
-                                g.drawImage(grass4, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                                g.drawImage(grass4, xInPixels, yInPixels, null);
                                 break;
                             default:
                                 break;
                         }
                         break;
                     case Tile.ICE:
-                        g.drawImage(ice, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                        g.drawImage(ice, xInPixels, yInPixels, null);
                         break;
                     case Tile.MUD:
-                        g.drawImage(mud, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                        g.drawImage(mud, xInPixels, yInPixels, null);
                         break;
                     case Tile.SAND:
-                        g.drawImage(sand, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                        g.drawImage(sand, xInPixels, yInPixels, null);
                         break;
                     case Tile.STONE:
-                        g.drawImage(stone, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                        g.drawImage(stone, xInPixels, yInPixels, null);
                         break;
                     case Tile.STONE_BRICKS:
-                        g.drawImage(stoneBricks, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                        g.drawImage(stoneBricks, xInPixels, yInPixels, null);
                         break;
                     case Tile.WATER:
-                        g.drawImage(water, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                        g.drawImage(water, xInPixels, yInPixels, null);
                         break;
                     case Tile.WOOD:
-                        g.drawImage(wood, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                        g.drawImage(wood, xInPixels, yInPixels, null);
                         break;
                     case Tile.VOID:
-                        g.drawImage(voidTile, x * Tuning.TILE_SIZE, y * Tuning.TILE_SIZE, null);
+                        g.drawImage(voidTile, xInPixels, yInPixels, null);
                         break;
                     default:
                         System.err.println("Cannot determine image to draw from tile type: " + currentTile.getType());
@@ -287,9 +298,12 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      */
     private void drawGuidelines(Graphics g, final boolean drawNums) {
         g.setColor(Color.WHITE);
+        //vertical lines
         for (int x = 0; x < Tuning.SCREEN_WIDTH; x += Tuning.TILE_SIZE) {
             g.drawLine(x, 0, x, Tuning.SCREEN_HEIGHT);
         }
+
+        //horizontal lines
         for (int y = 0; y < Tuning.SCREEN_WIDTH; y += Tuning.TILE_SIZE) {
             g.drawLine(0, y, Tuning.SCREEN_WIDTH, y);
         }
@@ -302,13 +316,20 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             g.drawString("" + counter, 5, i);
             counter++;
         }
-        counter = shift;
+        counter = shift; //used to draw the numbers incrementing from left to right
         for (int i = 5; i < Tuning.SCREEN_WIDTH; i += Tuning.TILE_SIZE) {
             g.drawString("" + counter, i, 8);
             counter++;
         }
     }
 
+    /**
+     * Draws all current enemies to the screen.
+     *
+     * @param g Graphics to draw onto.
+     * @param alsoDrawPaths True if the valid move positions for the enemies
+     * should be drawn.
+     */
     private void drawEnemies(Graphics g, final boolean alsoDrawPaths) {
         for (Enemy enemy : game.getEnemies()) {
             switch (enemy.getType()) {
@@ -371,45 +392,56 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         int x = e.getX();
         int y = e.getY();
         Tile move = game.convertCoords(x, y);
+        Player player = game.getPlayer();
 
-        if (Tuning.PLAYER_FREE_MOVE || game.getPlayer().isValidMove(move)) {
-            int pY = game.getPlayer().getCurrentTile().getY();
-            int pX = game.getPlayer().getCurrentTile().getX();
+        if (Tuning.PLAYER_FREE_MOVE || player.isValidMove(move)) {
+            int pY = player.getCurrentTile().getY();
+            int pX = player.getCurrentTile().getX();
             //if the player can move, move them, fixing orientation
             if (move.getX() > pX && move.getY() == pY) {
-                game.getPlayer().setOrientation(Player.RIGHT);
+                player.setOrientation(Player.RIGHT);
             } else if (move.getX() < pX && move.getY() == pY) {
-                game.getPlayer().setOrientation(Player.LEFT);
+                player.setOrientation(Player.LEFT);
             } else if (move.getY() > pY && move.getX() == pX) {
-                game.getPlayer().setOrientation(Player.DOWN);
+                player.setOrientation(Player.DOWN);
             } else if (move.getY() < pY && move.getX() == pX) {
-                game.getPlayer().setOrientation(Player.UP);
+                player.setOrientation(Player.UP);
             }
 
-            game.getPlayer().setX(move.getX());
-            game.getPlayer().setY(move.getY());
+            player.setX(move.getX());
+            player.setY(move.getY());
 
+            /**
+             * Death is checked. If it succeeds here before enemies move, this
+             * means that the player has stepped onto an enemy, which should result
+             * in the enemy dying.
+             */
             if (game.checkDeath()) {
                 Enemy killed = null;
                 for (Enemy enemy : game.getEnemies()) {
-                    if (enemy.getCurrentTile() == game.getPlayer().getCurrentTile()) {
+                    if (enemy.getCurrentTile() == player.getCurrentTile()) {
                         killed = enemy;
                     }
                 }
-                if (killed != null) {
+                if (killed != null) { //remove the enemy the player just killed
                     game.getEnemies().remove(killed);
                     kill.play();
                 }
             }
+
+            //move all enemies
             game.getEnemies().forEach((enemy) -> {
-                enemy.doMove(game.getPlayer());
+                enemy.doMove(player);
             });
+
+            //check death, if success, the player has died.
             if (game.checkDeath()) {
                 death.play();
                 Logger.messageWindow("You died.");
                 reset();
             }
 
+            //check for a game win
             if (game.checkWin()) {
                 win.play();
                 Logger.messageWindow("YOU WIN!!");
@@ -461,6 +493,9 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         return shift;
     }
 
+    /**
+     * Resets the game, remaking the map, and resetting all entities.
+     */
     private void reset() {
         System.out.println("Making new game.");
         Logger.logCodeMessage("Making new game.");

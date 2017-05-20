@@ -31,7 +31,7 @@ public class Tuning {
     public static final Color PLAYER_MOVE_COLOR = new Color(255, 255, 255, 100);
     public static final Color ENEMY_MOVE_COLOR = new Color(0, 0, 0, 80);
 
-    //enemy count
+    //enemy count to spawn initially
     public static final int ENEMY_COUNT = 10;
 
     //if the player is not bound by valid moves
