@@ -449,14 +449,15 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 Logger.messageWindow("YOU WIN!!");
                 reset();
             } else if (Tuning.AUTO_SHIFT) {
+                int playerX = player.getX();
                 //UPDATE SHIFT ------------
-                if (player.getX() < 35) { //page 1
+                if (playerX < 35) { //page 1
                     shift = 0;
-                } else if (player.getX() >= 35 && player.getX() < 68) { //page 2
+                } else if (playerX >= 35 && playerX < 68) { //page 2
                     shift = 33;
-                } else if (player.getX() >= 68 && player.getX() < 102) { //page 3
+                } else if (playerX >= 68 && playerX < 102) { //page 3
                     shift = 67;
-                } else if (player.getX() >= 102) {
+                } else if (playerX >= 102) {
                     shift = 80;
                 }
             }
