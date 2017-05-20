@@ -32,10 +32,11 @@ public class SneakGame {
         }
         Logger.logCodeMessage("Init all tiles.");
 
-        //SAND/MUD PITS -------------------------
+        //SAND/MUD/STONE PITS -------------------------
         for (int i = 0; i < 8; i++) {
             makeSandPit(grid[(int) (Math.random() * Tuning.MAP_HEIGHT)][(int) (Math.random() * Tuning.MAP_WIDTH)]);
             makeMudPit(grid[(int) (Math.random() * Tuning.MAP_HEIGHT)][(int) (Math.random() * Tuning.MAP_WIDTH)]);
+            makeStonePatch(grid[(int) (Math.random() * Tuning.MAP_HEIGHT)][(int) (Math.random() * Tuning.MAP_WIDTH)]);
         }
 
         Logger.logOtherMessage("World Gen", "Made sand pits.");
@@ -112,6 +113,28 @@ public class SneakGame {
             y = (int) (Math.random() * (Tuning.MAP_HEIGHT));
         } while (!grid[y][x].isPassable() || grid[y][x] == player.getCurrentTile()); //find a valid spot
         enemies.add(new Enemy(x, y, this, (int) (Math.random() * 3)));
+    }
+
+    /**
+     * Creates a stone patch.
+     *
+     * @param t Center tile of the stone patch.
+     */
+    private void makeStonePatch(Tile t) {
+        int tX = t.getX();
+        int tY = t.getY();
+
+        t.setType(Tile.STONE); //set sent tile to stone
+        for (int x = tX - 2; x < tX + 2; x++) {
+            for (int y = tY - 2; y < tY + 2; y++) {
+                if (Math.random() > 0.3 || y < 0 || y > Tuning.MAP_HEIGHT - 1
+                        || x < 0 || x > Tuning.MAP_WIDTH - 1) { //outside board
+                    continue;
+                }
+                grid[y][x].setType(Tile.STONE);
+            }
+        }
+
     }
 
     /**
