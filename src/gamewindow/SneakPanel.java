@@ -429,6 +429,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 }
                 if (killed != null) { //remove the enemy the player just killed
                     game.getEnemies().remove(killed);
+                    player.setKills(player.getKills() + 1);
                     kill.play();
                     game.spawnRandomEnemy(); //regen the killed enemy somewhere else
                 }
@@ -442,11 +443,14 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             //check death, if success, the player has died.
             if (game.checkDeath()) {
                 death.play();
-                Logger.messageWindow("You died.");
+                Logger.messageWindow("You died, making it " + player.getX()
+                        + " tiles and taking down " + player.getKills()
+                        + " monsters before one finally got you.");
                 reset();
             } else if (game.checkWin()) { //check for a game win
                 win.play();
-                Logger.messageWindow("YOU WIN!!");
+                Logger.messageWindow("You made it to the castle, ridding the world of "
+                        + player.getKills() + " monsters.");
                 reset();
             } else if (Tuning.AUTO_SHIFT) {
                 int playerX = player.getX();

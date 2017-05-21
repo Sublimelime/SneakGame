@@ -14,7 +14,7 @@ import gamelogic.SneakGame;
 public class Player extends Entity {
 
     public static final int UP = 0, LEFT = 1, DOWN = 2, RIGHT = 3;
-    private int orientation = RIGHT;
+    private int orientation = RIGHT, kills = 0;
 
     public Player(int x, int y, SneakGame game) {
         super(x, y, game);
@@ -26,6 +26,14 @@ public class Player extends Entity {
 
     public void setOrientation(int orientation) {
         this.orientation = orientation;
+    }
+
+    public int getKills() {
+        return kills;
+    }
+
+    public void setKills(int kills) {
+        this.kills = kills;
     }
 
 }
