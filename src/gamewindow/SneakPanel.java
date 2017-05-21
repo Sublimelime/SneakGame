@@ -442,6 +442,12 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
+
+        if (x < 0 || x > Tuning.MAP_WIDTH * Tuning.TILE_SIZE || y < 0
+                || y > Tuning.MAP_HEIGHT * Tuning.TILE_SIZE) {
+            return;
+        }
+
         Tile move = game.convertCoords(x, y);
         Player player = game.getPlayer();
 
