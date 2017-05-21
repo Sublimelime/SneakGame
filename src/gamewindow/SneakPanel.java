@@ -392,7 +392,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     }
 
     @Override
-    public void mouseClicked(MouseEvent e) {
+    public void mouseReleased(MouseEvent e) {
         int x = e.getX();
         int y = e.getY();
         Tile move = game.convertCoords(x, y);
@@ -465,6 +465,11 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     }
 
     @Override
+    public void mouseClicked(MouseEvent e) {
+        //unused
+    }
+
+    @Override
     public void keyPressed(KeyEvent e) {
         //unused
     }
@@ -476,11 +481,6 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
     @Override
     public void mousePressed(MouseEvent e) {
-        //unused
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent e) {
         //unused
     }
 
