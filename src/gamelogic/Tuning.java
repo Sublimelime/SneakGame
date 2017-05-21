@@ -15,7 +15,8 @@ public class Tuning {
 
     //Size of the screen
     public final static int SCREEN_WIDTH = 640; //640 for normal, 1680 to show whole map
-    public final static int SCREEN_HEIGHT = 640;
+    public final static int RESERVE_HEIGHT = 100; //height for hud at the bottom
+    public final static int SCREEN_HEIGHT = 640 + Tuning.RESERVE_HEIGHT;
 
     //map size
     public final static int MAP_WIDTH = 120;

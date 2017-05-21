@@ -31,7 +31,6 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
     final BufferedImage grass, grass2, grass3, grass4, ice, mud, sand, stone, stoneBricks, water, wood, voidTile;
     //entities
     final BufferedImage playerRight, playerUp, playerDown, playerLeft;
-
     final BufferedImage gooblin, trool, weesp;
 
     private static int shift = 0;
@@ -142,7 +141,44 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         //Draw enemies
         drawEnemies(bg, true);
 
+        drawHUD(bg);
+
         g.drawImage(buffer, 0, 0, null);
+    }
+
+    /**
+     * Draws the player's hud across the bottom of the screen.
+     *
+     * @param g Graphics to draw to.
+     */
+    private void drawHUD(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, Tuning.SCREEN_HEIGHT - Tuning.RESERVE_HEIGHT,
+                Tuning.SCREEN_WIDTH, Tuning.RESERVE_HEIGHT); //background
+        //hud border
+        g.setColor(Color.red);
+        g.drawRoundRect(0, Tuning.SCREEN_HEIGHT - Tuning.RESERVE_HEIGHT + 2,
+                Tuning.SCREEN_WIDTH, Tuning.RESERVE_HEIGHT - 5, 10, 20);
+        //data
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        Player player = game.getPlayer();
+
+        g.drawString("Kills: " + player.getKills(), 10, Tuning.SCREEN_HEIGHT
+                - Tuning.RESERVE_HEIGHT + 30);
+        g.drawString("Position: " + player.getX() + "," + player.getY(), 10,
+                Tuning.SCREEN_HEIGHT - Tuning.RESERVE_HEIGHT + 60);
+        g.drawString("Tile: ", 150,
+                Tuning.SCREEN_HEIGHT - Tuning.RESERVE_HEIGHT + 30);
+        drawTileAt(195, Tuning.SCREEN_HEIGHT - Tuning.RESERVE_HEIGHT + 15, player.getCurrentTile(), g);
+
+        g.drawString("Current tile range: " + player.getCurrentTile().getMovementRange(), 230,
+                Tuning.SCREEN_HEIGHT - Tuning.RESERVE_HEIGHT + 30);
+
+        g.drawString("Distance to castle: " + ((Tuning.MAP_WIDTH - 1) - player.getX()), 200,
+                Tuning.SCREEN_HEIGHT - Tuning.RESERVE_HEIGHT + 60);
+
     }
 
     /**
@@ -237,59 +273,70 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      */
     private void drawMap(Graphics g) {
         for (int x = 0; x < Tuning.SCREEN_WIDTH / Tuning.TILE_SIZE; x++) {
-            for (int y = 0; y < Tuning.SCREEN_HEIGHT / Tuning.TILE_SIZE; y++) {
-                Tile currentTile = game.getGrid()[y][x + shift];
+            for (int y = 0; y < (Tuning.SCREEN_HEIGHT - Tuning.RESERVE_HEIGHT) / Tuning.TILE_SIZE; y++) {
                 int xInPixels = x * Tuning.TILE_SIZE;
                 int yInPixels = y * Tuning.TILE_SIZE;
+                drawTileAt(xInPixels, yInPixels, game.getGrid()[y][x + shift], g);
+            }
+        }
+    }
 
-                switch (currentTile.getType()) { //draw based on type
-                    case Tile.GRASS:
-                        switch (currentTile.getGrassType()) {
-                            case 0:
-                                g.drawImage(grass, xInPixels, yInPixels, null);
-                                break;
-                            case 1:
-                                g.drawImage(grass2, xInPixels, yInPixels, null);
-                                break;
-                            case 2:
-                                g.drawImage(grass3, xInPixels, yInPixels, null);
-                                break;
-                            case 3:
-                                g.drawImage(grass4, xInPixels, yInPixels, null);
-                                break;
-                            default:
-                                break;
-                        }
+    /**
+     * Draws a specified tile at a specified set of coords.
+     *
+     * @param x X in pixels to draw at
+     * @param y Y in pixels to draw at
+     * @param t Tile to draw
+     * @param g Graphics to draw onto.
+     */
+    private void drawTileAt(int x, int y, Tile t, Graphics g) {
+
+        switch (t.getType()) { //draw based on type
+            case Tile.GRASS:
+                switch (t.getGrassType()) {
+                    case 0:
+                        g.drawImage(grass, x, y, null);
                         break;
-                    case Tile.ICE:
-                        g.drawImage(ice, xInPixels, yInPixels, null);
+                    case 1:
+                        g.drawImage(grass2, x, y, null);
                         break;
-                    case Tile.MUD:
-                        g.drawImage(mud, xInPixels, yInPixels, null);
+                    case 2:
+                        g.drawImage(grass3, x, y, null);
                         break;
-                    case Tile.SAND:
-                        g.drawImage(sand, xInPixels, yInPixels, null);
-                        break;
-                    case Tile.STONE:
-                        g.drawImage(stone, xInPixels, yInPixels, null);
-                        break;
-                    case Tile.STONE_BRICKS:
-                        g.drawImage(stoneBricks, xInPixels, yInPixels, null);
-                        break;
-                    case Tile.WATER:
-                        g.drawImage(water, xInPixels, yInPixels, null);
-                        break;
-                    case Tile.WOOD:
-                        g.drawImage(wood, xInPixels, yInPixels, null);
-                        break;
-                    case Tile.VOID:
-                        g.drawImage(voidTile, xInPixels, yInPixels, null);
+                    case 3:
+                        g.drawImage(grass4, x, y, null);
                         break;
                     default:
-                        System.err.println("Cannot determine image to draw from tile type: " + currentTile.getType());
                         break;
                 }
-            }
+                break;
+            case Tile.ICE:
+                g.drawImage(ice, x, y, null);
+                break;
+            case Tile.MUD:
+                g.drawImage(mud, x, y, null);
+                break;
+            case Tile.SAND:
+                g.drawImage(sand, x, y, null);
+                break;
+            case Tile.STONE:
+                g.drawImage(stone, x, y, null);
+                break;
+            case Tile.STONE_BRICKS:
+                g.drawImage(stoneBricks, x, y, null);
+                break;
+            case Tile.WATER:
+                g.drawImage(water, x, y, null);
+                break;
+            case Tile.WOOD:
+                g.drawImage(wood, x, y, null);
+                break;
+            case Tile.VOID:
+                g.drawImage(voidTile, x, y, null);
+                break;
+            default:
+                System.err.println("Cannot determine image to draw from tile type: " + t.getType());
+                break;
         }
     }
 
