@@ -29,7 +29,7 @@ public class Tuning {
     public final static int SHIFT_MIN = 0;
 
     //set to true if debugging
-    public final static boolean DEBUG = true, SHOULD_PRINT_ERRORS = false;
+    public final static boolean DEBUG = false, SHOULD_PRINT_ERRORS = false;
 
     public static final boolean AUTO_SHIFT = true;
 
@@ -41,5 +41,5 @@ public class Tuning {
     public static final int ENEMY_COUNT = 10;
 
     //if the player is not bound by valid moves
-    public static final boolean PLAYER_FREE_MOVE = true;
+    public static final boolean PLAYER_FREE_MOVE = false;
 }
