@@ -425,14 +425,10 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 reset();
             }
         } else if (e.getKeyChar() == 'd' && Tuning.DEBUG) {
-            if (shift + 1 < Tuning.SHIFT_MAX) {
-                shift++;
-            }
+            safeAdjustShift(1);
             System.out.println("Current shift: " + shift);
         } else if (e.getKeyChar() == 'a' && Tuning.DEBUG) {
-            if (shift - 1 >= Tuning.SHIFT_MIN) {
-                shift--;
-            }
+            safeAdjustShift(-1);
             System.out.println("Current shift: " + shift);
         }
 
@@ -464,7 +460,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             } else if (move.getY() < pY && move.getX() == pX) {
                 player.setOrientation(Player.UP);
             }
-
+            player.setLastPosition(player.getCurrentTile());
             player.setX(move.getX());
             player.setY(move.getY());
 
@@ -508,15 +504,29 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             } else if (Tuning.AUTO_SHIFT) {
                 int playerX = player.getX();
                 //UPDATE SHIFT ------------
-                if (playerX < 35) { //page 1
-                    shift = 0;
-                } else if (playerX >= 35 && playerX < 68) { //page 2
-                    shift = 33;
-                } else if (playerX >= 68 && playerX < 102) { //page 3
-                    shift = 67;
-                } else if (playerX >= 102) {
-                    shift = 80;
+                if (playerX > 20) {
+                    safeAdjustShift(player.getCurrentTile().getX() - player.getLastPosition().getX());
                 }
+            }
+        }
+    }
+
+    /**
+     * Safely adjusts shift without throwing NPEs.
+     *
+     * @param adjustment Amount to adjust by.
+     */
+    private void safeAdjustShift(int adjustment) {
+        if (adjustment == 0 || shift == Tuning.SHIFT_MAX || (shift == 0 && adjustment < 0)) {
+            return;
+        }
+        if (shift + adjustment < Tuning.SHIFT_MAX && shift + adjustment > 0) {
+            shift += adjustment;
+        } else {
+            if (adjustment > 0) {
+                shift += (Tuning.SHIFT_MAX - shift); //maxes it out
+            } else {
+                shift = 0; //mins it out
             }
         }
     }
