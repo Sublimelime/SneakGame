@@ -28,7 +28,14 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
     private BufferedImage buffer;
     //tiles
-    final BufferedImage grass, grass2, grass3, grass4, ice, mud, sand, stone, stoneBricks, water, wood, voidTile;
+    final BufferedImage grass, grass2, grass3, grass4;
+    final BufferedImage ice, ice2, ice3, ice4;
+    final BufferedImage mud, mud2, mud3, mud4;
+    final BufferedImage sand, sand2, sand3, sand4;
+    final BufferedImage stone, stone2, stone3, stone4;
+    final BufferedImage water, water2, water3, water4;
+    final BufferedImage wood, voidTile, stoneBricks;
+
     //entities
     final BufferedImage playerRight, playerUp, playerDown, playerLeft;
     final BufferedImage gooblin, trool, weesp;
@@ -43,13 +50,21 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         buffer = new BufferedImage(Tuning.SCREEN_WIDTH, Tuning.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
         //load all images
-        grass = ImageTools.load("resources/grass.png");
+        grass = ImageTools.load("resources/grass.png"); //todo use arrays instead, base index off of rotationType
         grass2 = ImageTools.rotate(grass, 90);
         grass3 = ImageTools.rotate(grass, 180);
         grass4 = ImageTools.rotate(grass, -90);
 
         ice = ImageTools.load("resources/ice.png");
+        ice2 = ImageTools.rotate(ice, 90);
+        ice3 = ImageTools.rotate(ice, 180);
+        ice4 = ImageTools.rotate(ice, -90);
+
         mud = ImageTools.load("resources/mud.png");
+        mud2 = ImageTools.rotate(grass, 90);
+        mud3 = ImageTools.rotate(grass, 180);
+        mud4 = ImageTools.rotate(grass, -90);
+
         sand = ImageTools.load("resources/sand.png");
         stone = ImageTools.load("resources/stone.png");
         stoneBricks = ImageTools.load("resources/stone-bricks.png");
@@ -293,7 +308,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
         switch (t.getType()) { //draw based on type
             case Tile.GRASS:
-                switch (t.getGrassType()) {
+                switch (t.getRotationType()) {
                     case 0:
                         g.drawImage(grass, x, y, null);
                         break;
