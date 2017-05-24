@@ -537,7 +537,6 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      * @param adjustment Amount to adjust by.
      */
     private void safeAdjustShift(int adjustment) {
-        System.out.println(shift);
         if (adjustment == 0 || (shift == 0 && adjustment < 0)) {
             return;
         }

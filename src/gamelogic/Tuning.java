@@ -25,20 +25,20 @@ public class Tuning {
     //the size of the square tiles in pixels
     public final static int TILE_SIZE = 16;
 
+    //shift variables
     public final static int SHIFT_MAX = 80;
     public final static int SHIFT_MIN = 0;
+    public static final boolean AUTO_SHIFT = true;
 
     //set to true if debugging
     public final static boolean DEBUG = false, SHOULD_PRINT_ERRORS = false;
-
-    public static final boolean AUTO_SHIFT = true;
 
     //colors
     public static final Color PLAYER_MOVE_COLOR = new Color(255, 255, 255, 100);
     public static final Color ENEMY_MOVE_COLOR = new Color(0, 0, 0, 80);
 
     //enemy count to spawn initially
-    public static final int ENEMY_COUNT = 0;
+    public static final int ENEMY_COUNT = 10;
 
     //if the player is not bound by valid moves
     public static final boolean PLAYER_FREE_MOVE = false;
