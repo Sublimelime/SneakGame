@@ -28,12 +28,12 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
     private BufferedImage buffer;
     //tiles
-    final BufferedImage grass, grass2, grass3, grass4;
-    final BufferedImage ice, ice2, ice3, ice4;
-    final BufferedImage mud, mud2, mud3, mud4;
-    final BufferedImage sand, sand2, sand3, sand4;
-    final BufferedImage stone, stone2, stone3, stone4;
-    final BufferedImage water, water2, water3, water4;
+    final BufferedImage[] grass;
+    final BufferedImage[] ice;
+    final BufferedImage[] mud;
+    final BufferedImage[] sand;
+    final BufferedImage[] stone;
+    final BufferedImage[] water;
     final BufferedImage wood, voidTile, stoneBricks;
 
     //entities
@@ -50,25 +50,43 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
         buffer = new BufferedImage(Tuning.SCREEN_WIDTH, Tuning.SCREEN_HEIGHT, BufferedImage.TYPE_INT_ARGB);
 
         //load all images
-        grass = ImageTools.load("resources/grass.png"); //todo use arrays instead, base index off of rotationType
-        grass2 = ImageTools.rotate(grass, 90);
-        grass3 = ImageTools.rotate(grass, 180);
-        grass4 = ImageTools.rotate(grass, -90);
+        grass = new BufferedImage[4];
+        grass[0] = ImageTools.load("resources/grass.png"); //todo use arrays instead, base index off of rotationType
+        grass[1] = ImageTools.rotate(grass[0], 90);
+        grass[2] = ImageTools.rotate(grass[0], 180);
+        grass[3] = ImageTools.rotate(grass[0], -90);
 
-        ice = ImageTools.load("resources/ice.png");
-        ice2 = ImageTools.rotate(ice, 90);
-        ice3 = ImageTools.rotate(ice, 180);
-        ice4 = ImageTools.rotate(ice, -90);
+        ice = new BufferedImage[4];
+        ice[0] = ImageTools.load("resources/ice.png");
+        ice[1] = ImageTools.rotate(ice[0], 90);
+        ice[2] = ImageTools.rotate(ice[0], 180);
+        ice[3] = ImageTools.rotate(ice[0], -90);
 
-        mud = ImageTools.load("resources/mud.png");
-        mud2 = ImageTools.rotate(grass, 90);
-        mud3 = ImageTools.rotate(grass, 180);
-        mud4 = ImageTools.rotate(grass, -90);
+        mud = new BufferedImage[4];
+        mud[0] = ImageTools.load("resources/mud.png");
+        mud[1] = ImageTools.rotate(mud[0], 90);
+        mud[2] = ImageTools.rotate(mud[0], 180);
+        mud[3] = ImageTools.rotate(mud[0], -90);
 
-        sand = ImageTools.load("resources/sand.png");
-        stone = ImageTools.load("resources/stone.png");
+        sand = new BufferedImage[4];
+        sand[0] = ImageTools.load("resources/sand.png");
+        sand[1] = ImageTools.rotate(sand[0], 90);
+        sand[2] = ImageTools.rotate(sand[0], 180);
+        sand[3] = ImageTools.rotate(sand[0], -90);
+
+        stone = new BufferedImage[4];
+        stone[0] = ImageTools.load("resources/stone.png");
+        stone[1] = ImageTools.rotate(stone[0], 90);
+        stone[2] = ImageTools.rotate(stone[0], 180);
+        stone[3] = ImageTools.rotate(stone[0], -90);
+
+        water = new BufferedImage[4];
+        water[0] = ImageTools.load("resources/water.png");
+        water[1] = ImageTools.rotate(water[0], 90);
+        water[2] = ImageTools.rotate(water[0], 180);
+        water[3] = ImageTools.rotate(water[0], -90);
+
         stoneBricks = ImageTools.load("resources/stone-bricks.png");
-        water = ImageTools.load("resources/water.png");
         wood = ImageTools.load("resources/wood.png");
         voidTile = ImageTools.load("resources/void-tile.png");
 
@@ -308,40 +326,25 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
 
         switch (t.getType()) { //draw based on type
             case Tile.GRASS:
-                switch (t.getRotationType()) {
-                    case 0:
-                        g.drawImage(grass, x, y, null);
-                        break;
-                    case 1:
-                        g.drawImage(grass2, x, y, null);
-                        break;
-                    case 2:
-                        g.drawImage(grass3, x, y, null);
-                        break;
-                    case 3:
-                        g.drawImage(grass4, x, y, null);
-                        break;
-                    default:
-                        break;
-                }
+                g.drawImage(grass[t.getRotationType()], x, y, null);
                 break;
             case Tile.ICE:
-                g.drawImage(ice, x, y, null);
+                g.drawImage(ice[t.getRotationType()], x, y, null);
                 break;
             case Tile.MUD:
-                g.drawImage(mud, x, y, null);
+                g.drawImage(mud[t.getRotationType()], x, y, null);
                 break;
             case Tile.SAND:
-                g.drawImage(sand, x, y, null);
+                g.drawImage(sand[t.getRotationType()], x, y, null);
                 break;
             case Tile.STONE:
-                g.drawImage(stone, x, y, null);
+                g.drawImage(stone[t.getRotationType()], x, y, null);
                 break;
             case Tile.STONE_BRICKS:
                 g.drawImage(stoneBricks, x, y, null);
                 break;
             case Tile.WATER:
-                g.drawImage(water, x, y, null);
+                g.drawImage(water[t.getRotationType()], x, y, null);
                 break;
             case Tile.WOOD:
                 g.drawImage(wood, x, y, null);

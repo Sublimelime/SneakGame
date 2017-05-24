@@ -15,12 +15,13 @@ public class Tile {
     private int type, movementRange;
     private boolean passable;
     public final static int GRASS = 0, ICE = 1, MUD = 2, SAND = 3, STONE = 4, STONE_BRICKS = 5, WATER = 6, WOOD = 7, VOID = 8;
-    private int rotationType; //integer, 0-3
+    private final int rotationType; //integer, 0-3
 
     public Tile(int x, int y, int type) {
         this.x = x;
         this.y = y;
         setType(type); //set the movement range based on tile type. Tiles that are impassible also have passable set to false.
+        rotationType = (int) (Math.random() * 3);
     }
 
     public int getX() {
@@ -48,7 +49,6 @@ public class Tile {
         switch (type) {
             case 0: //grass
                 movementRange = 3;
-                rotationType = (int) (Math.random() * 3);
                 passable = true;
                 break;
             case 1: //ice
