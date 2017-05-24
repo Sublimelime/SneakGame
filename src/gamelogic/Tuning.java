@@ -29,7 +29,7 @@ public class Tuning {
     public final static int SHIFT_MIN = 0;
 
     //set to true if debugging
-    public final static boolean DEBUG = false, SHOULD_PRINT_ERRORS = false;
+    public final static boolean DEBUG = true, SHOULD_PRINT_ERRORS = false;
 
     public static final boolean AUTO_SHIFT = true;
 

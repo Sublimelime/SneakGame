@@ -336,6 +336,8 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
                 break;
             default:
                 System.err.println("Cannot determine image to draw from tile type: " + t.getType());
+                Logger.logErrorMessage("Cannot determine image to draw from tile type: " + t.getType());
+                Logger.errorWindow("Tile drawing error", "Cannot determine image to draw from tile type: " + t.getType());
                 break;
         }
     }
@@ -504,7 +506,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             } else if (Tuning.AUTO_SHIFT) {
                 int playerX = player.getX();
                 //UPDATE SHIFT ------------
-                if (playerX > 20) {
+                if (playerX > 20 || shift > 0) {
                     safeAdjustShift(player.getCurrentTile().getX() - player.getLastPosition().getX());
                 }
             }
@@ -517,7 +519,8 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
      * @param adjustment Amount to adjust by.
      */
     private void safeAdjustShift(int adjustment) {
-        if (adjustment == 0 || shift == Tuning.SHIFT_MAX || (shift == 0 && adjustment < 0)) {
+        System.out.println(shift);
+        if (adjustment == 0 || (shift == 0 && adjustment < 0)) {
             return;
         }
         if (shift + adjustment < Tuning.SHIFT_MAX && shift + adjustment > 0) {
