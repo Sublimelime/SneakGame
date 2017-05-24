@@ -524,7 +524,7 @@ public class SneakPanel extends JPanel implements MouseListener, KeyListener, Ru
             shift += adjustment;
         } else {
             if (adjustment > 0) {
-                shift += (Tuning.SHIFT_MAX - shift); //maxes it out
+                shift = Tuning.SHIFT_MAX; //maxes it out
             } else {
                 shift = 0; //mins it out
             }
